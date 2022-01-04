@@ -42,7 +42,7 @@ def Download_Bili_Video(bv:str,p:list=[],qn:str="16",ASDB:bool=False) -> bool:
         ui.Multi_Video_Process(video_Path=os.path.abspath(os.getcwd()+"./components/tmp"),Video_Item=videoname) ### Call Multi_Video_Process For Parse
 
     def Get_Info(p)->dict:
-        os.system(f"echo Start Download {bv}")
+        os.system(f"echo Start Download {bv} Using Bili-Download")
         Bili_Video_Info_Api = f"https://api.bilibili.com/x/web-interface/view?bvid={bv}"
         Bili_Video_Info_Json = requests.get(Bili_Video_Info_Api,headers=headers).json()
 
@@ -84,7 +84,7 @@ def You_Get_Download_Any_url(url:str,Paras:str="") -> bool:
     name = url.split("/")[-1] if len(url.split("/")[-1]) <10  else str(random.randint(1,100))
     os.system(f'echo url named {name}')
     paras = f"-O './components/tmp/{name}'"
-    os.system(f"echo Start Download {url}")
+    os.system(f"echo Start Download {url} using You-Get")
     os.system(f"you-get --debug {paras} '{url}' ")
     for item in  os.listdir("./components/tmp"):
         if name in item:

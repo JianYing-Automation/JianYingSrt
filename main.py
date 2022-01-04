@@ -12,7 +12,7 @@ from threading import Thread
 import time
 import shutil
 import zipfile
-import keyboard
+import json
 import sys
 import subprocess
 import time
@@ -172,18 +172,18 @@ t.start()
 
 Prepare()
 os.system("echo Prepare Complete , Satrting Parse")
-bvs = open("./list.txt","r",encoding="utf-8").read().split("\n")
-for i in bvs:
+config = json.loads(open("./config.json","r",encoding="utf-8").read())
+for i in config["url"]:
     try:
-        video_Down.Download_Bili_Video(i)
-        exiitcode = 0
+        video_Down.Download_Bili_Video(i,ASDB=config["ASDB"])
+        exitcode = 0
     except:
         exitcode = 128
 
 PROCESSING = False
 os.system(f"echo {PROCESSING}")
 os.system('%s%s' % ("taskkill /F /IM ","JianyingPro.exe"))
-version = ','.join(bvs)
+version = ','.join(config["url"])
 os.system(f'echo ::set-output name=version::{version}')
 os.system(f'echo ::set-output name=tags::{version}')
 #Create zip

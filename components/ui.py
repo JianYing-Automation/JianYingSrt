@@ -296,12 +296,6 @@ def Multi_Video_Process(video_Path:str=os.path.abspath(CONFIG["Video_Path"]),Vid
                 result = Single_Operation() 
         print(f"{Video_Item} with result  {result} (0 represents success)")
         
-    # 最后记得把字幕上传
-    srts = [fn for fn in os.listdir("components/tmp") if any(fn.endswith(format) for format in ['.srt'])]
-    for srt in srts:
-        r = requests.post('http://subserver.asdb.live/receveUpload', files={'file': open("./components/tmp/"+srt, 'rb')})
-        print(r.text)
-
     return 0
 
 

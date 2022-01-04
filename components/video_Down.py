@@ -23,7 +23,7 @@ if __name__ == "__main__":
 else:
     from components import ui
 
-def Download_Bili_Video(bv:str,p:list=[],qn:str="16") -> bool:
+def Download_Bili_Video(bv:str,p:list=[],qn:str="16",ASDB:bool=False) -> bool:
     VIDEO_NAME = []
     headers = {
         "User-Agent":"Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:93.0) Gecko/20100101 Firefox/93.0",
@@ -35,7 +35,7 @@ def Download_Bili_Video(bv:str,p:list=[],qn:str="16") -> bool:
         ui.Multi_Video_Process(video_Path=os.path.abspath(os.getcwd()+"./components/tmp"),Video_Item=VIDEO_NAME)
 
     def Get_Info(p)->dict:
-        os.system(f"echo Start download {bv}")
+        os.system(f"echo Start Download {bv}")
         Bili_Video_Info_Api = f"https://api.bilibili.com/x/web-interface/view?bvid={bv}"
         Bili_Video_Info_Json = requests.get(Bili_Video_Info_Api,headers=headers).json()
 
@@ -52,7 +52,7 @@ def Download_Bili_Video(bv:str,p:list=[],qn:str="16") -> bool:
         rolling = p[:]
         for i in rolling:
             #循环获得每个分P的信息格式 ["分P","Cid","名字(P1 录播/)"]
-            if "弹幕" in Bili_Video_Info_Json["data"]["pages"][int(i)-1]["part"]:
+            if "弹幕" in Bili_Video_Info_Json["data"]["pages"][int(i)-1]["part"] and ASDB:
                 p.remove(i)
             else:
                 infos["p"].append([i, Bili_Video_Info_Json["data"]["pages"][int(i)-1]["cid"], Bili_Video_Info_Json["data"]["pages"][int(i)-1]["part"] ])
@@ -88,3 +88,14 @@ def Download_Bili_Video(bv:str,p:list=[],qn:str="16") -> bool:
         return True
     
     return init()
+
+def You_Get_Download(url:str) -> bool:
+    paras = "-o ./components/tmp"
+    
+    if url[:2].lower() == "bv":
+        paras += f" -O {url} --format=dash-flv360 "
+        url = f"https://www.bilibili.com/video/{url}"
+        
+    os.system(f"echo Start Download {url}")
+    os.system(f"you-get {paras} {url} ")
+    ui.Multi_Video_Process(video_Path=os.path.abspath(os.getcwd()+"./components/tmp"),Video_Item=VIDEO_NAME)

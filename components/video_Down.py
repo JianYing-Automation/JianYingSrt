@@ -61,32 +61,6 @@ def Download_Bili_Video(bv:str,p:list=[],qn:str="16",ASDB:bool=False) -> bool:
                 infos["p"].append([i, Bili_Video_Info_Json["data"]["pages"][int(i)-1]["cid"], Bili_Video_Info_Json["data"]["pages"][int(i)-1]["part"] ])
             #Asdb 特有:去除带有 【弹幕】 的所有分P
         return infos
-
-
-    def Video_Download(infos:dict)->bool:
-        VIDEO_NAME
-        result = False
-        formats = "mp4" if qn == "16" else "flv"
-        p = 1
-        def Download(url,name)->bool:
-            with closing(requests.session().get(url,headers=headers,stream=True)) as response:
-                chunk_size = 1024
-                with open(f"./components/tmp/{name}", "wb") as file:
-                    for data in response.iter_content(chunk_size=chunk_size):
-                        file.write(data)
-                os.system(f"echo {name} Download Complete")
-            return True
-        for i in range(len(infos["p"])):
-            url = f"https://api.bilibili.com/x/player/playurl?bvid={infos['bv']}&cid={infos['p'][i][1]}&qn={qn}&otype=json"
-            Video_Info_Json = requests.get(url,headers=headers).json()
-            Video_Durl = Video_Info_Json["data"]["durl"][0]["url"]
-            name = infos["bv"] if len(infos["p"]) == 1 else f"{infos['bv']}-{str(p)}"
-            p+=1
-            Video_Name = f"{name}.{formats}"
-            #print(Video_Name)
-            VIDEO_NAME.append(Video_Name)
-            result = Download(Video_Durl,Video_Name)
-        return result
     
     def For_You_Get(info):
         """"Using You-get to download"""
@@ -94,11 +68,13 @@ def Download_Bili_Video(bv:str,p:list=[],qn:str="16",ASDB:bool=False) -> bool:
         for i in info["p"]:
             subprocess.Popen(f"you-get -O ./components/tmp/{bv}-{i[0]} --format=dash-flv360 https://www.bilibili.com/video/{bv}?p={i[0]}",stdout=subprocess.DEVNULL)
             # if use it as __main__ please attention the path
+        if len(info["p"]) == 1:
+            return [f"{bv}.mp4"]
         return [f"{bv}-{i[0]}.mp4" for i in info["p"]]
 
     return init()
 
-def You_Get_Download(url:str) -> bool:
+def You_Get_Download_Any_url(url:str,Paras:str="") -> bool:
     paras = "-o ./components/tmp"
 
     if url[:2].lower() == "bv":

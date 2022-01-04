@@ -11,6 +11,7 @@ qn{
     116: 1080P60F flv
 }
 """
+import subprocess
 import requests
 from contextlib import closing
 import threading
@@ -23,6 +24,8 @@ else:
     from components import ui
 
 def Download_Bili_Video(bv:str,p:list=[],qn:str="16",ASDB:bool=False) -> bool:
+    if ASDB:
+        os.system("echo We Love A-Soul :) ")
     VIDEO_NAME = []
     headers = {
         "User-Agent":"Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:93.0) Gecko/20100101 Firefox/93.0",
@@ -87,12 +90,11 @@ def Download_Bili_Video(bv:str,p:list=[],qn:str="16",ASDB:bool=False) -> bool:
         """"Using You-get to download"""
         bv = info["bv"]
         for i in info["p"]:
-            os.system(f"you-get -O ./components/tmp/{bv}-{i[0]} --format=dash-flv360 https://www.bilibili.com/video/{bv}?p={i[0]}")
+            subprocess.Popen(f"you-get -O ./components/tmp/{bv}-{i[0]} --format=dash-flv360 https://www.bilibili.com/video/{bv}?p={i[0]}",stdout=subprocess.DEVNULL)
             # if use it as __main__ please attention the path
 
 
     return init()
-
 
 def You_Get_Download(url:str) -> bool:
     paras = "-o ./components/tmp"
@@ -104,5 +106,3 @@ def You_Get_Download(url:str) -> bool:
     os.system(f"echo Start Download {url}")
     os.system(f"you-get {paras} {url} ")
     ui.Multi_Video_Process(video_Path=os.path.abspath(os.getcwd()+"./components/tmp"),Video_Item=VIDEO_NAME)
-
-Download_Bili_Video(bv="BV1La411z7jT")

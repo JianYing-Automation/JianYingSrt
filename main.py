@@ -137,7 +137,7 @@ class Prepare():
         time.sleep(5)
         if auto.WindowControl(Name="JianyingPro",searchDepth=1).Exists() == False:
             time.sleep(2)
-            self.Get_Draft_Content_Path(0)
+            return self.Get_Draft_Content_Path(0)
         Intro_window = auto.WindowControl(Name="JianyingPro",searchDepth=1)
         Intro_window.SetTopmost(True)
         Intro_window.TextControl(Name="HomePageStartProjectName",searchDepth=1).Click()

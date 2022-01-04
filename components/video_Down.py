@@ -88,7 +88,7 @@ def You_Get_Download_Any_url(url:str,Paras:str="") -> bool:
     os.system(f'echo url named {name}')
     paras = f"-O './components/tmp/{name}'"
     os.system(f"echo Start Download {url}")
-    os.system(f"you-get {paras} '{url}' ")
+    os.system(f"you-get --debug {paras} '{url}' ")
     for item in  os.listdir("./components/tmp"):
         if name in item:
             name = item #We Dont know the format of the video

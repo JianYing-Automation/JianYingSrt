@@ -67,8 +67,9 @@ def Download_Bili_Video(bv:str,p:list=[],qn:str="16",ASDB:bool=False) -> bool:
         """"Using You-get to download"""
         bv = info["bv"]
         for i in info["p"]:
-            subprocess.Popen(f"you-get -O ./components/tmp/{bv}-{i[0]} --format=dash-flv360 https://www.bilibili.com/video/{bv}?p={i[0]}",stdout=subprocess.DEVNULL)
+            p = subprocess.Popen(f"you-get -O ./components/tmp/{bv}-{i[0]} --format=dash-flv360 https://www.bilibili.com/video/{bv}?p={i[0]}",stdout=subprocess.DEVNULL)
             # if use it as __main__ please attention the path
+        p.wait()
         if len(info["p"]) == 1:
             return [f"{bv}.mp4"]
         return [f"{bv}-{i[0]}.mp4" for i in info["p"]]

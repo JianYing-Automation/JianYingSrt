@@ -43,7 +43,7 @@ jobs:
           draft: false
           prerelease: false
           release_name: ${{ steps.runScripts.outputs.version }} ${{ steps.runScripts.outputs.tags }} 
-          tag_name: Release ${{ github.ref }}
+          tag_name: ${{ github.ref }}
           body: Release ${{ steps.runScripts.outputs.tags }}
         env:
           GITHUB_TOKEN: ${{ github.token }}

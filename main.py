@@ -15,6 +15,7 @@ import zipfile
 import keyboard
 import sys
 import subprocess
+import time
 from components import ui
 from components import video_Down
 
@@ -23,6 +24,16 @@ targetPath,draft_Path = f'C:\\Users\\{targetPath}\\AppData\\Local\\JianyingPro\\
 
 os.makedirs("./components/tmp")
 
+def timmer(func):
+    def deco(*args, **kwargs):
+        print('\Function: {_funcname_} Start Run'.format(_funcname_=func.__name__))
+        start_time = time.time()
+        res = func(*args, **kwargs)
+        end_time = time.time()
+        print('Function :{_funcname_} Finished with  {_time_} Seconds'
+              .format(_funcname_=func.__name__, _time_=(end_time - start_time)))
+        return res
+    return deco
 
 # thats where JianYing Pro is to be installed
 global PROCESSING
@@ -42,6 +53,7 @@ class Prepare():
         "Installed":False
     }
 
+    @timmer
     def DownloadJy(self):
 
         os.system("echo Start Download JianYingPro")
@@ -79,6 +91,7 @@ class Prepare():
         t.start()
         os.system("echo Download complete")
 
+    @timmer
     def Install(self):
         """ Install JianYing """
         Install_Window = auto.WindowControl(searchDepth=1,ClassName="#32770")
@@ -96,12 +109,14 @@ class Prepare():
         self.Status["Installed"] = True
         os.system("echo found JianyingPro.exe, Install Complete")
     
+
     def Open_JianYing(self):
         p = subprocess.Popen(targetPath+"\\JianyingPro.exe")
         while PROCESSING:
             time.sleep(20)
         p.kill()
 
+    @timmer
     def Initialize_JianYing(self):
         os.system("echo Initialize JianYing")
         Thread(target=self.Open_JianYing).start()
@@ -114,6 +129,7 @@ class Prepare():
         self.Get_Draft_Content_Path()
         return True
 
+    @timmer
     def Get_Draft_Content_Path(self):
         os.system("echo Get Draft Content Path")
         Thread(target=self.Open_JianYing).start()
@@ -154,7 +170,10 @@ Prepare()
 os.system("echo Prepare Complete , Satrting Parse")
 bvs = open("./list.txt","r",encoding="utf-8").read().split("\n")
 for i in bvs:
-    video_Down.Download_Bili_Video(i)
+    try:
+        video_Down.Download_Bili_Video(i)
+    except:
+        pass
 
 PROCESSING = False
 os.system(f"echo {PROCESSING}")

@@ -26,11 +26,11 @@ os.makedirs("./components/tmp")
 
 def timmer(func):
     def deco(*args, **kwargs):
-        print('\Function: {_funcname_} Start Run'.format(_funcname_=func.__name__))
+        os.system('echo \Function: {_funcname_} Start Run'.format(_funcname_=func.__name__))
         start_time = time.time()
         res = func(*args, **kwargs)
         end_time = time.time()
-        print('Function :{_funcname_} Finished with  {_time_} Seconds'
+        os.system('echo Function :{_funcname_} Finished with  {_time_} Seconds'
               .format(_funcname_=func.__name__, _time_=(end_time - start_time)))
         return res
     return deco
@@ -179,8 +179,8 @@ PROCESSING = False
 os.system(f"echo {PROCESSING}")
 os.system('%s%s' % ("taskkill /F /IM ","JianyingPro.exe"))
 version = ','.join(bvs)
-os.system(f'echo "::set-output name=version::{version}"')
-os.system(f'echo "::set-output name=tags::{version}"')
+os.system(f'echo ::set-output name=version::{version}')
+os.system(f'echo ::set-output name=tags::{version}')
 #Create zip
 assets = [fn for fn in os.listdir("./components/tmp") if any(fn.endswith(ext) for ext in [".png",".jpg",".srt"])]
 with zipfile.ZipFile("./components/tmp/All.zip",'w') as zip:

@@ -176,7 +176,7 @@ os.system("echo Prepare Complete , Satrting Parse")
 config = json.loads(open("./config.json","r",encoding="utf-8").read())
 for i in config["url"]:
     try:
-        video_Down.Download_Bili_Video(i,ASDB=config["ASDB"])
+        video_Down.Download_Bili_Video(i,ASDB=config["ASDB"]) #### Call Video_Down.py to download the video and next operations
         exitcode = 0
     except Exception as e:
         os.system(f"echo Parse error with \n {e}")

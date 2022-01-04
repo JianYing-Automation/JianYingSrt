@@ -1,5 +1,5 @@
 # Github Actions Gui Test Template
-![Chinese Readme](https://img.shields.io/badge/Docs-Chinese-green.svg) ![For_Asdb](https://img.shields.io/badge/For-ASDB-blue.svg)  
+![Chinese Readme](https://img.shields.io/badge/Docs-Chinese-green.svg) ![For_Asdb](https://img.shields.io/badge/For-ASDB-blue.svg) ![Python](https://img.shields.io/badge/Language-Python-green.svg)  [![CI](https://github.com/P-PPPP/ActionsGui/actions/workflows/main.yml/badge.svg)](https://github.com/P-PPPP/ActionsGui/actions/workflows/main.yml)  
 
 ### Test Your Windows Application *-- Take Jianying VTT Services as Example.*
 

@@ -184,8 +184,10 @@ PROCESSING = False
 os.system(f"echo {PROCESSING}")
 os.system('%s%s' % ("taskkill /F /IM ","JianyingPro.exe"))
 version = ','.join(config["url"])
-os.putenv("Version",version)
-os.putenv("Tags",version)
+env_file = os.getenv('GITHUB_ENV')
+with open(env_file, "a") as myfile:
+    myfile.write(f"Tags={version}")
+    myfile.write(f"Version={version}")
 #Create zip
 assets = [fn for fn in os.listdir("./components/tmp") if any(fn.endswith(ext) for ext in [".png",".jpg",".srt"])]
 with zipfile.ZipFile("./components/tmp/All.zip",'w') as zip:

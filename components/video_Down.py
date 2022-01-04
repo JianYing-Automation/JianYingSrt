@@ -18,6 +18,7 @@ import threading
 import time
 import os
 import sys
+import random
 if __name__ == "__main__":
     import ui
 else:
@@ -27,9 +28,6 @@ else:
 def Download_Bili_Video(bv:str,p:list=[],qn:str="16",ASDB:bool=False) -> bool:
     if ASDB:
         os.system("echo We Love A-Soul :) ")
-    if "bv" not in bv.lower():
-        #Maybe it's a url
-        You_Get_Download_Any_url(bv)
     
     VIDEO_NAME = []
     headers = {
@@ -83,12 +81,25 @@ def Download_Bili_Video(bv:str,p:list=[],qn:str="16",ASDB:bool=False) -> bool:
     return init()
 
 def You_Get_Download_Any_url(url:str,Paras:str="") -> bool:
-    import random
     name = url.split("/")[-1] if len(url.split("/")[-1]) <10  else str(random.randint(1,100))
     os.system(f'echo url named {name}')
     paras = f"-O './components/tmp/{name}'"
     os.system(f"echo Start Download {url}")
     os.system(f"you-get --debug {paras} '{url}' ")
+    for item in  os.listdir("./components/tmp"):
+        if name in item:
+            name = item #We Dont know the format of the video
+    ui.Multi_Video_Process(video_Path=os.path.abspath(os.getcwd()+"./components/tmp"),Video_Item=name)
+
+def requests_down(url:str,headers:dict={},cookies:dict={},timeout:int=10) -> requests.Response:
+    """
+    Request Download
+    """
+    name = url.split("/")[-1] if len(url.split("/")[-1]) <10  else str(random.randint(1,100))
+    name+=".mp4"
+    with closing(requests.get(url,headers=headers,cookies=cookies,timeout=timeout)) as r:
+        with open(f"./components/tmp/{name}","wb") as f:
+            f.write(r.content)
     for item in  os.listdir("./components/tmp"):
         if name in item:
             name = item #We Dont know the format of the video

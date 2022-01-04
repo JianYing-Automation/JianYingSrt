@@ -185,7 +185,12 @@ os.system("echo Prepare Complete , Satrting Parse")
 
 for i in config["url"]:
     try:
-        video_Down.Download_Bili_Video(i,ASDB=config["ASDB"]) #### Call Video_Down.py to download the video and next operations
+        if config["types"] == "requests":
+            video_Down.requests_down(i)
+        elif config["types"] == "you-get":
+            video_Down.You_Get_Download_Any_url(i)
+        else:
+            video_Down.Download_Bili_Video(i,ASDB=config["ASDB"]) #### Call Video_Down.py to download the video and next operations
         exitcode = 0
     except Exception as e:
         os.system(f"echo Parse error with \n {e}")

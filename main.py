@@ -126,14 +126,18 @@ class Prepare():
         os.system('%s%s' % ("taskkill /F /IM ","VEDetector.exe"))
         os.system('%s%s' % ("taskkill /F /IM ","JianyingPro.exe"))
         #Turn Off the VEDetector.exe
-        self.Get_Draft_Content_Path()
+        self.Get_Draft_Content_Path(1)
         return True
 
     @timmer
-    def Get_Draft_Content_Path(self):
+    def Get_Draft_Content_Path(self,mode:int):
         os.system("echo Get Draft Content Path")
-        Thread(target=self.Open_JianYing).start()
+        if mode:
+            Thread(target=self.Open_JianYing).start()
         time.sleep(5)
+        if auto.WindowControl(Name="JianyingPro",searchDepth=1).Exists() == False:
+            time.sleep(2)
+            self.Get_Draft_Content_Path(0)
         Intro_window = auto.WindowControl(Name="JianyingPro",searchDepth=1)
         Intro_window.SetTopmost(True)
         Intro_window.TextControl(Name="HomePageStartProjectName",searchDepth=1).Click()
@@ -151,8 +155,8 @@ def Upload():
     name = str(int(time.time()))+'.png'
     im = pyautogui.screenshot("./components/tmp/"+name)
     im.save("./components/tmp/"+name)
-    r = requests.post('http://subserver.asdb.live/receveUpload', files={'file': open("./components/tmp/"+name, 'rb')})
-    os.system(f"echo {r.text}")
+    #r = requests.post('http://subserver.asdb.live/receveUpload', files={'file': open("./components/tmp/"+name, 'rb')})
+    #os.system(f"echo {r.text}")
 
 
 
@@ -172,8 +176,9 @@ bvs = open("./list.txt","r",encoding="utf-8").read().split("\n")
 for i in bvs:
     try:
         video_Down.Download_Bili_Video(i)
+        exiitcode = 0
     except:
-        pass
+        exitcode = 128
 
 PROCESSING = False
 os.system(f"echo {PROCESSING}")
@@ -188,4 +193,4 @@ with zipfile.ZipFile("./components/tmp/All.zip",'w') as zip:
         zip.write("./components/tmp/"+asset,asset)
 
 os.system(f"echo assets.zip created")
-sys.exit(0)
+sys.exit(exitcode)

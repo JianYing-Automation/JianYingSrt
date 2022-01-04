@@ -171,6 +171,7 @@ t = Thread(target=Upload_Thread,daemon=True)
 t.start()
 
 Prepare()
+
 os.system("echo Prepare Complete , Satrting Parse")
 config = json.loads(open("./config.json","r",encoding="utf-8").read())
 for i in config["url"]:
@@ -182,11 +183,14 @@ for i in config["url"]:
         exitcode = 128
 
 PROCESSING = False
-os.system(f"echo {PROCESSING}")
+
 os.system('%s%s' % ("taskkill /F /IM ","JianyingPro.exe"))
 version = ','.join(config["url"])
-os.system(f'echo "Version={version}" >> $GITHUB_ENV')
-os.system(f'echo "Tags={version}" >> $GITHUB_ENV')
+env_file = os.getenv('GITHUB_ENV')
+with open(env_file, "a") as f:
+    f.write(f"Version={version}")
+    f.write("\n")
+    f.write(f"Tags={version}")
 #Create zip
 assets = [fn for fn in os.listdir("./components/tmp") if any(fn.endswith(ext) for ext in [".png",".jpg",".srt"])]
 with zipfile.ZipFile("./components/tmp/All.zip",'w') as zip:

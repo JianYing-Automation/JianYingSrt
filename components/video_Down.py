@@ -34,6 +34,7 @@ def Download_Bili_Video(bv:str,p:list=[],qn:str="16",ASDB:bool=False) -> bool:
 
     def init() -> None:
         For_You_Get(Get_Info(p))
+        os.system("echo Start Parse")
         ui.Multi_Video_Process(video_Path=os.path.abspath(os.getcwd()+"./components/tmp"),Video_Item=VIDEO_NAME)
 
     def Get_Info(p)->dict:
@@ -92,7 +93,8 @@ def Download_Bili_Video(bv:str,p:list=[],qn:str="16",ASDB:bool=False) -> bool:
         for i in info["p"]:
             subprocess.Popen(f"you-get -O ./components/tmp/{bv}-{i[0]} --format=dash-flv360 https://www.bilibili.com/video/{bv}?p={i[0]}",stdout=subprocess.DEVNULL)
             # if use it as __main__ please attention the path
-
+        global VIDEO_NAME
+        VIDEO_NAME = [f"{bv}-{i[0]}.flv" for i in info["p"]]
 
     return init()
 

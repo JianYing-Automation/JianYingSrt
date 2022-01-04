@@ -23,9 +23,14 @@ if __name__ == "__main__":
 else:
     from components import ui
 
+
 def Download_Bili_Video(bv:str,p:list=[],qn:str="16",ASDB:bool=False) -> bool:
     if ASDB:
         os.system("echo We Love A-Soul :) ")
+    if "bv" not in bv.lower():
+        #Maybe it's a url
+        You_Get_Download_Any_url(bv)
+    
     VIDEO_NAME = []
     headers = {
         "User-Agent":"Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:93.0) Gecko/20100101 Firefox/93.0",
@@ -78,12 +83,12 @@ def Download_Bili_Video(bv:str,p:list=[],qn:str="16",ASDB:bool=False) -> bool:
     return init()
 
 def You_Get_Download_Any_url(url:str,Paras:str="") -> bool:
-    paras = "-o ./components/tmp"
 
-    if url[:2].lower() == "bv":
-        paras += f" -O {url} --format=dash-flv360 "
-        url = f"https://www.bilibili.com/video/{url}"
-        
+    name = url.split("/")[-1]
+    paras = "-O ./components/tmp/{name}"    
     os.system(f"echo Start Download {url}")
     os.system(f"you-get {paras} {url} ")
-    ui.Multi_Video_Process(video_Path=os.path.abspath(os.getcwd()+"./components/tmp"),Video_Item=VIDEO_NAME)
+    for item in  os.listdir("./components/tmp"):
+        if name in item:
+            name = item #We Dont know the format of the video
+    ui.Multi_Video_Process(video_Path=os.path.abspath(os.getcwd()+"./components/tmp"),Video_Item=name)

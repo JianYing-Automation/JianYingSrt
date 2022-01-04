@@ -19,6 +19,15 @@ import time
 from components import ui
 from components import video_Down
 
+config = json.loads(open("./config.json","r",encoding="utf-8").read())
+#Get Current Repo Name to check if tags created
+tags = requests.get(url="https://api.github.com/repos/"+os.popen("echo  ${{ github.event.repository.name }}").read().replace("\n","")+"/tags").json()
+for i in tags:
+    if i in config["urls"]:
+        print("[+] Found Tag: "+i)
+        sys.exit(1)
+# Same tag is not allowed
+
 targetPath = os.popen("whoami").read().replace("\n","").split("\\")[1]
 targetPath,draft_Path = f'C:\\Users\\{targetPath}\\AppData\\Local\\JianyingPro\\Apps',f'C:\\Users\\{targetPath}\\AppData\\Local\\JianyingPro\\User Data\Projects\com.lveditor.draft\\'
 
@@ -173,7 +182,7 @@ t.start()
 Prepare()
 
 os.system("echo Prepare Complete , Satrting Parse")
-config = json.loads(open("./config.json","r",encoding="utf-8").read())
+
 for i in config["url"]:
     try:
         video_Down.Download_Bili_Video(i,ASDB=config["ASDB"]) #### Call Video_Down.py to download the video and next operations

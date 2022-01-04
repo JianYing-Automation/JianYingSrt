@@ -31,7 +31,7 @@ jobs:
         run: pip install requests pyautogui uiautomation pillow keyboard you-get
       
       - name: runScripts
-        run: py main.py
+        run: py main.py 
         id: version
 
       - name: CreateRelease
@@ -53,5 +53,5 @@ jobs:
         with:
          upload_url: ${{ steps.create_release.outputs.upload_url }}
          asset_path: ./components/tmp/All.zip
-         asset_name: All.zip
+         asset_name: All_${{ env.Version }}.zip
          asset_content_type: application/zip

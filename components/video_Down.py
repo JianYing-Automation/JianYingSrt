@@ -85,9 +85,10 @@ def Download_Bili_Video(bv:str,p:list=[],qn:str="16",ASDB:bool=False) -> bool:
 def You_Get_Download_Any_url(url:str,Paras:str="") -> bool:
 
     name = url.split("/")[-1]
+    os.system(f'echo url named {name}')
     paras = "-O ./components/tmp/{name}"    
     os.system(f"echo Start Download {url}")
-    os.system(f"you-get {paras} {url} ")
+    os.system(f"you-get {paras} '{url}' ")
     for item in  os.listdir("./components/tmp"):
         if name in item:
             name = item #We Dont know the format of the video

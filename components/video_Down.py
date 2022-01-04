@@ -98,8 +98,8 @@ def requests_down(url:str,headers:dict={},cookies:dict={},timeout:int=10) -> req
     """
     name = url.split("/")[-1] if len(url.split("/")[-1]) <10  else str(random.randint(1,100))
     name+=".mp4"
-    os.system(f"echo Start Download {url} using requests")
-    chunk_size = 1024*128
+    os.system(f"echo Start Download '{name}' using requests")
+    chunk_size = 1024*20
     with closing(requests.get(url,headers=headers,cookies=cookies,timeout=timeout,stream=True)) as r:
         with open(f"./components/tmp/{name}","wb") as f:
             for chunk in r.iter_content(chunk_size=chunk_size):

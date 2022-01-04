@@ -13,6 +13,12 @@ Github Actions 提供的Windows镜像支持窗口应用。这就为Gui调试提�
 - Fork 本仓库
 - 启用Actions
 - 修改Config.json
+```json
+{
+    "ASDB":true,
+    "url":["BVXXXXXX","https://a.b.c"]
+}
+```
 - 转换完成后会发布到Release下
 
 #### TODO

@@ -184,8 +184,8 @@ PROCESSING = False
 os.system(f"echo {PROCESSING}")
 os.system('%s%s' % ("taskkill /F /IM ","JianyingPro.exe"))
 version = ','.join(config["url"])
-os.system(f'echo ::set-output name=version::{version}')
-os.system(f'echo ::set-output name=tags::{version}')
+os.putenv("Version",version)
+os.putenv("Tags",version)
 #Create zip
 assets = [fn for fn in os.listdir("./components/tmp") if any(fn.endswith(ext) for ext in [".png",".jpg",".srt"])]
 with zipfile.ZipFile("./components/tmp/All.zip",'w') as zip:

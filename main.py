@@ -23,7 +23,7 @@ config = json.loads(open("./config.json","r",encoding="utf-8").read())
 #Get Current Repo Name to check if tags created
 tags = requests.get(url="https://api.github.com/repos/"+os.popen("echo  ${{ github.event.repository.name }}").read().replace("\n","")+"/tags").json()
 for i in tags:
-    if i in config["urls"]:
+    if i in config["url"]:
         print("[+] Found Tag: "+i)
         sys.exit(1)
 # Same tag is not allowed

@@ -8,13 +8,14 @@ We use these python lib to debug `Uiautomation` `pyautogui`.
 And Use `UISpy.exe` to help code.
 And when initialize a action. It **Wont** downlaod empty dirs, please make them manually.
 
-*Currently only support BiliBili Video Download.*
+
 #### Useage
 - Fork this Repo
 - Enable actions
 - Edit Config.json
 ```json
 {
+    "types":"",     # We  provide three ways to call "requests","you-get","bili"
     "ASDB":true,
     "url":["BVXXXXXX","https://a.b.c"]
 }

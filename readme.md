@@ -8,13 +8,13 @@ Github Actions 提供的Windows镜像支持窗口应用。这就为Gui调试提�
 编写测试脚本时建议使用 `UISpy.exe` 辅助定位元素。  
 初始化时Github Actions **不会** 下载空文件夹,若需要临时文件等,请手动创建。
 
-*目前只支持B站视频转换*
 #### 使用方法
 - Fork 本仓库
 - 启用Actions
 - 修改Config.json
 ```json
 {
+    "types":"",     # 三种调用方式 "requests","you-get","bili"
     "ASDB":true,
     "url":["BVXXXXXX","https://a.b.c"]
 }

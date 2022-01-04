@@ -1,4 +1,5 @@
 {
-    "ASDB":true,
+    "types":"requests",
+    "ASDB":false,
     "url":[]
 }

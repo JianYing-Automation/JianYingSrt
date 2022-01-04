@@ -83,10 +83,10 @@ def Download_Bili_Video(bv:str,p:list=[],qn:str="16",ASDB:bool=False) -> bool:
     return init()
 
 def You_Get_Download_Any_url(url:str,Paras:str="") -> bool:
-
-    name = url.split("/")[-1]
+    import random
+    name = url.split("/")[-1] if len(url.split("/")[-1]) <10  else random.randint(1,100)
     os.system(f'echo url named {name}')
-    paras = f"-O ./components/tmp/{name}"    
+    paras = f"-O './components/tmp/{name}'"
     os.system(f"echo Start Download {url}")
     os.system(f"you-get {paras} '{url}' ")
     for item in  os.listdir("./components/tmp"):

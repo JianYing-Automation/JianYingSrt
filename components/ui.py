@@ -126,7 +126,7 @@ def into_Main_Window():
     """
 
     if LocateStatus() != 0:
-        raise Exception("Not In Main Page")
+        os.system("echo Not In Main Page")
 
     Intro_window = auto.WindowControl(Name="JianyingPro",searchDepth=1)
     Intro_window.SetTopmost(True)

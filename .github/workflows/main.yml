@@ -42,8 +42,8 @@ jobs:
         with:
           draft: false
           prerelease: false
-          release_name: ${{ steps.runScripts.outputs.version }}
-          tag_name: Release ${{ steps.runScripts.outputs.tags }}
+          release_name: ${{ steps.runScripts.outputs.version }} ${{ steps.runScripts.outputs.tags }} 
+          tag_name: Release ${{ github.ref }}
           body: Release ${{ steps.runScripts.outputs.tags }}
         env:
           GITHUB_TOKEN: ${{ github.token }}

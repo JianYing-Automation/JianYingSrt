@@ -177,17 +177,16 @@ for i in config["url"]:
     try:
         video_Down.Download_Bili_Video(i,ASDB=config["ASDB"])
         exitcode = 0
-    except:
+    except Exception as e:
+        os.system(f"echo Parse error with \n {e}")
         exitcode = 128
 
 PROCESSING = False
 os.system(f"echo {PROCESSING}")
 os.system('%s%s' % ("taskkill /F /IM ","JianyingPro.exe"))
 version = ','.join(config["url"])
-env_file = os.getenv('GITHUB_ENV')
-with open(env_file, "a") as myfile:
-    myfile.write(f"Tags={version}")
-    myfile.write(f"Version={version}")
+os.system(f'echo "Version={version}" >> $GITHUB_ENV')
+os.system(f'echo "Tags={version}" >> $GITHUB_ENV')
 #Create zip
 assets = [fn for fn in os.listdir("./components/tmp") if any(fn.endswith(ext) for ext in [".png",".jpg",".srt"])]
 with zipfile.ZipFile("./components/tmp/All.zip",'w') as zip:

@@ -28,3 +28,4 @@ License GPL V3.0
 [Python-UIAutomation-for-Windows](https://github.com/yinkaisheng/Python-UIAutomation-for-Windows)  
 [Pyautogui](https://github.com/asweigart/pyautogui)
 [requests](https://github.com/psf/requests)  
+[You-Get](https://github.com/soimort/you-get)  

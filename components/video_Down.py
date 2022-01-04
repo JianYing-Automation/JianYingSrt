@@ -34,7 +34,7 @@ def Download_Bili_Video(bv:str,p:list=[],qn:str="16",ASDB:bool=False) -> bool:
 
     def init() -> None:
         For_You_Get(Get_Info(p))
-        os.system("echo Start Parse")
+        os.system(f"echo Start Parse {str(VIDEO_NAME)}")
         ui.Multi_Video_Process(video_Path=os.path.abspath(os.getcwd()+"./components/tmp"),Video_Item=VIDEO_NAME)
 
     def Get_Info(p)->dict:

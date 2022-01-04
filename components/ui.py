@@ -36,7 +36,7 @@ def Path_init():
             CONFIG["draft_content_directory"] = os.path.join(draft_Path,i+"\\draft_content.json")
             CONFIG["JianYing_Exe_Path"] = os.path.join(targetPath,"JianYingPro.exe")
 
-    print(CONFIG)
+    os.system(f"echo {CONFIG}")
 
 
 
@@ -294,7 +294,7 @@ def Multi_Video_Process(video_Path:str=os.path.abspath(CONFIG["Video_Path"]),Vid
                 if Tried_times>=3:
                     break # 如果尝试3次仍然失败，则跳出循环
                 result = Single_Operation() 
-        print(f"{Video_Item} with result  {result} (0 represents success)")
+        os.system(f"echo {Video_Item} with result  {result} (0 represents success)")
         
     return 0
 

@@ -170,7 +170,7 @@ def Upload_Thread():
 t = Thread(target=Upload_Thread,daemon=True)
 t.start()
 
-Prepare()
+#Prepare()
 
 os.system("echo Prepare Complete , Satrting Parse")
 config = json.loads(open("./config.json","r",encoding="utf-8").read())

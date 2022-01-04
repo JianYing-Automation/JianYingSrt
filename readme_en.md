@@ -13,7 +13,13 @@ And when initialize a action. It **Wont** downlaod empty dirs, please make them 
 - Fork this Repo
 - Enable actions
 - Edit Config.json
-
+```json
+{
+    "ASDB":true,
+    "url":["BVXXXXXX","https://a.b.c"]
+}
+```
+- It will Pubished to github release
 #### TODO
 - add `You-Get` Support
 - add Github Secrets

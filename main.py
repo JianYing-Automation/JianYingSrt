@@ -189,7 +189,7 @@ for i in config["url"]:
             video_Down.requests_down(i)
         elif config["types"] == "you-get":
             video_Down.You_Get_Download_Any_url(i)
-        else:
+        elif config["types"] == "bili":
             video_Down.Download_Bili_Video(i,ASDB=config["ASDB"]) #### Call Video_Down.py to download the video and next operations
         exitcode = 0
     except Exception as e:

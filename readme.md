@@ -14,7 +14,7 @@ Github Actions 提供的Windows镜像支持窗口应用。这就为Gui调试提�
 - 修改Config.json
 ```json
 {
-    "types":"",     # 三种调用方式 "requests","you-get","bili"
+    "types":"",     # "requests","you-get","bili"
     "ASDB":true,
     "url":["BVXXXXXX","https://a.b.c"]
 }

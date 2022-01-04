@@ -15,7 +15,7 @@ And when initialize a action. It **Wont** downlaod empty dirs, please make them 
 - Edit Config.json
 ```json
 {
-    "types":"",     # We  provide three ways to call "requests","you-get","bili"
+    "types":"",     #  "requests","you-get","bili"
     "ASDB":true,
     "url":["BVXXXXXX","https://a.b.c"]
 }

@@ -19,7 +19,6 @@ import os
 import sys
 if __name__ == "__main__":
     import ui
-
 else:
     from components import ui
 
@@ -31,7 +30,7 @@ def Download_Bili_Video(bv:str,p:list=[],qn:str="16",ASDB:bool=False) -> bool:
     }
 
     def init() -> None:
-        Video_Download(Get_Info(p))
+        For_You_Get(Get_Info(p))
         ui.Multi_Video_Process(video_Path=os.path.abspath(os.getcwd()+"./components/tmp"),Video_Item=VIDEO_NAME)
 
     def Get_Info(p)->dict:
@@ -65,6 +64,14 @@ def Download_Bili_Video(bv:str,p:list=[],qn:str="16",ASDB:bool=False) -> bool:
         result = False
         formats = "mp4" if qn == "16" else "flv"
         p = 1
+        def Download(url,name)->bool:
+            with closing(requests.session().get(url,headers=headers,stream=True)) as response:
+                chunk_size = 1024
+                with open(f"./components/tmp/{name}", "wb") as file:
+                    for data in response.iter_content(chunk_size=chunk_size):
+                        file.write(data)
+                os.system(f"echo {name} Download Complete")
+            return True
         for i in range(len(infos["p"])):
             url = f"https://api.bilibili.com/x/player/playurl?bvid={infos['bv']}&cid={infos['p'][i][1]}&qn={qn}&otype=json"
             Video_Info_Json = requests.get(url,headers=headers).json()
@@ -76,22 +83,20 @@ def Download_Bili_Video(bv:str,p:list=[],qn:str="16",ASDB:bool=False) -> bool:
             VIDEO_NAME.append(Video_Name)
             result = Download(Video_Durl,Video_Name)
         return result
+    def For_You_Get(info):
+        """"Using You-get to download"""
+        bv = info["bv"]
+        for i in info["p"]:
+            os.system(f"you-get -O ./components/tmp/{bv}-{i[0]} --format=dash-flv360 https://www.bilibili.com/video/{bv}?p={i[0]}")
+            # if use it as __main__ please attention the path
 
 
-    def Download(url,name)->bool:
-        with closing(requests.session().get(url,headers=headers,stream=True)) as response:
-            chunk_size = 1024
-            with open(f"./components/tmp/{name}", "wb") as file:
-                for data in response.iter_content(chunk_size=chunk_size):
-                    file.write(data)
-            os.system(f"echo {name} Download Complete")
-        return True
-    
     return init()
+
 
 def You_Get_Download(url:str) -> bool:
     paras = "-o ./components/tmp"
-    
+
     if url[:2].lower() == "bv":
         paras += f" -O {url} --format=dash-flv360 "
         url = f"https://www.bilibili.com/video/{url}"
@@ -99,3 +104,5 @@ def You_Get_Download(url:str) -> bool:
     os.system(f"echo Start Download {url}")
     os.system(f"you-get {paras} {url} ")
     ui.Multi_Video_Process(video_Path=os.path.abspath(os.getcwd()+"./components/tmp"),Video_Item=VIDEO_NAME)
+
+Download_Bili_Video(bv="BV1La411z7jT")

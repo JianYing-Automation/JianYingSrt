@@ -89,7 +89,7 @@ def You_Get_Download_Any_url(url:str,Paras:str="") -> bool:
     p = subprocess.Popen(f'you-get {paras} "{url}" ',stdout=subprocess.DEVNULL)
     p.wait()
     os.system(f"echo Time Spend: {time.time()-start_time}")
-    ui.Multi_Video_Process(video_Path=os.path.abspath(os.getcwd()+"./components/tmp"),Video_Item=[name+Down_format])
+    ui.Multi_Video_Process(video_Path=os.path.abspath(os.getcwd()+"./components/tmp"),Video_Item=[name+"."+Down_format])
 
 
 class MulThreadDownload(threading.Thread):

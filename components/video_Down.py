@@ -92,21 +92,49 @@ def You_Get_Download_Any_url(url:str,Paras:str="") -> bool:
     ui.Multi_Video_Process(video_Path=os.path.abspath(os.getcwd()+"./components/tmp"),Video_Item=name)
 
 
-def requests_down(url:str,headers:dict={},cookies:dict={},timeout:int=10) -> requests.Response:
-    """
-    Request Download
-    """
-    name = url.split("/")[-1] if len(url.split("/")[-1]) <10  else str(random.randint(1,100))
-    name+=".mp4"
-    os.system(f"echo Start Download '{name}' using requests")
-    chunk_size = 1024*20
-    with closing(requests.get(url,headers=headers,cookies=cookies,timeout=timeout,stream=True)) as r:
-        with open(f"./components/tmp/{name}","wb") as f:
-            for chunk in r.iter_content(chunk_size=chunk_size):
-                if chunk:
-                    f.write(chunk)
+class MulThreadDownload(threading.Thread):
+    def __init__(self,url,startpos,endpos,f):
+        super(MulThreadDownload,self).__init__()
+        self.url = url
+        self.startpos = startpos
+        self.endpos = endpos
+        self.fd = f
 
-    for item in  os.listdir("./components/tmp"):
-        if name in item:
-            name = item #We Dont know the format of the video
-    ui.Multi_Video_Process(video_Path=os.path.abspath(os.getcwd()+"./components/tmp"),Video_Item=name)
+    def download(self):
+        os.system("echo start thread:%s at %s" % (self.getName(), time.time()))
+        headers = {"Range":"bytes=%s-%s"%(self.startpos,self.endpos)}
+        res = requests.get(self.url,headers=headers)
+        self.fd.seek(self.startpos)
+        self.fd.write(res.content)
+        os.system("echo stop thread:%s at %s" % (self.getName(), time.time()))
+
+    def run(self):
+        self.download()
+
+def requests_down(url:str,headers:dict={},cookies:dict={},timeout:int=10,threadnum:int=10) -> requests.Response:
+    filename = url.split("/")[-1].split("?")[0]
+    filesize = int(requests.head(url).headers['Content-Length'])
+    os.system("echo %s filesize:%s"%(filename,filesize))
+    threading.BoundedSemaphore(threadnum)
+    step = filesize // threadnum
+    mtd_list = []
+    start = 0
+    end = -1
+
+    tempf = open(f"./components/tmp/{filename}",'w')
+    tempf.close()
+    with open(f"./components/tmp/{filename}",'rb+') as  f:
+        fileno = f.fileno()
+        while end < filesize -1:
+            start = end +1
+            end = start + step -1
+            if end > filesize:
+                end = filesize
+            dup = os.dup(fileno)
+            fd = os.fdopen(dup,'rb+',-1)
+            t = MulThreadDownload(url,start,end,fd)
+            t.start()
+            mtd_list.append(t)
+
+        for i in  mtd_list:
+            i.join()

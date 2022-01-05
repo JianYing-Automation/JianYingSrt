@@ -132,8 +132,8 @@ class Prepare():
         #for the first time , JianYing will open VEDetector.exe to detect sys environment
         time.sleep(10)
         Upload()
-        os.system('%s%s' % ("taskkill /F /IM ","VEDetector.exe"))
-        os.system('%s%s' % ("taskkill /F /IM ","JianyingPro.exe"))
+        os.system('%s%s' % ("taskkill /F /T /IM ","VEDetector.exe"))
+        os.system('%s%s' % ("taskkill /F /T /IM ","JianYingPro.exe"))
         #Turn Off the VEDetector.exe
         self.Get_Draft_Content_Path(1)
         return True
@@ -155,7 +155,7 @@ class Prepare():
         if ui.LocateStatus() == 1:
             for i in os.listdir(draft_Path):
                 if i.count(".") == 0:
-                    os.system('%s%s' % ("taskkill /F /IM ","JianyingPro.exe"))
+                    os.system('%s%s' % ("taskkill /F /T /IM ","JianYingPro.exe"))
                     ui.Path_init()
                     return os.path.join(draft_Path,i+"\\draft_content.json")
 
@@ -198,7 +198,7 @@ for i in config["url"]:
 
 PROCESSING = False
 
-os.system('%s%s' % ("taskkill /F /IM ","JianyingPro.exe"))
+os.system('%s%s' % ("taskkill /F /T /IM ","JianYingPro.exe"))
 if config["types"] == "bili":
     version = ','.join(config["url"])
 else:

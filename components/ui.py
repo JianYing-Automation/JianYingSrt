@@ -115,7 +115,7 @@ def Restart_Client(isReopen:bool=True):
             isClearTmp : 是否清理缓存
             isReopen: 是否重新启动
     """
-    os.system('%s%s' % ("taskkill /F /IM ","JianYingPro.exe"))
+    os.system('%s%s' % ("taskkill /F /T /IM ","JianYingPro.exe"))
     time.sleep(1)
     if isReopen:
         os.system(CONFIG["JianYing_Exe_Path"])

@@ -199,7 +199,7 @@ for i in config["url"]:
 PROCESSING = False
 
 os.system('%s%s' % ("taskkill /F /IM ","JianyingPro.exe"))
-if config["bili"]:
+if config["types"] == "bili":
     version = ','.join(config["url"])
 else:
     version = ','.join(config["url"]).replace("?","").replace("&","").replace(" ","")

@@ -83,12 +83,14 @@ def Download_Bili_Video(bv:str,p:list=[],qn:str="16",ASDB:bool=False) -> bool:
 def You_Get_Download_Any_url(url:str,Paras:str="") -> bool:
     name = url.replace("?","").replace("&","").split("/")[-1]
     os.system(f'echo url named {name}')
-    paras = f"-O './components/tmp/{name}'"
+    paras = f"-O ./components/tmp/{name}"
     os.system(f"echo Start Download {url} using You-Get")
+    start_time = time.time()
     os.system(f'you-get --debug {paras} "{url}" ')
     for item in  os.listdir("./components/tmp"):
         if name in item:
             name = item #We Dont know the format of the video
+    os.system(f"echo Time Spend: {time.time()-start_time}")
     ui.Multi_Video_Process(video_Path=os.path.abspath(os.getcwd()+"./components/tmp"),Video_Item=name)
 
 

@@ -199,7 +199,10 @@ for i in config["url"]:
 PROCESSING = False
 
 os.system('%s%s' % ("taskkill /F /IM ","JianyingPro.exe"))
-version = ','.join(config["url"])
+if config["bili"]:
+    version = ','.join(config["url"])
+else:
+    version = ','.join(config["url"]).replace("?","").replace("&","").replace(" ","")
 env_file = os.getenv('GITHUB_ENV')
 with open(env_file, "a") as f:
     f.write(f"Version={version}")

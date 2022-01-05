@@ -217,6 +217,7 @@ def Single_Operation(stage:int=1)->int:
         while 1:
             #等待识别完成
             time.sleep(5)
+            os.system("echo Waiting for recognition to complete")
             if LocateStatus() == 1:
                 break
         tracks = draft_content.read_draft_content_src(CONFIG["draft_content_directory"])

@@ -214,4 +214,4 @@ with zipfile.ZipFile("./components/tmp/All.zip",'w') as zip:
         zip.write("./components/tmp/"+asset,asset)
 
 os.system(f"echo assets.zip created")
-sys.exit(exitcode)
+sys.exit(0)

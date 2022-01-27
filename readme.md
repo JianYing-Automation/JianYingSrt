@@ -1,12 +1,7 @@
-# Github Actions Gui Debug Template
+# JianYingActionsSrt
 ![English Readme](https://img.shields.io/badge/Docs-English-green.svg) ![For_Asdb](https://img.shields.io/badge/For-ASDB-blue.svg)  ![Python](https://img.shields.io/badge/Language-Python-green.svg) [![CI](https://github.com/P-PPPP/ActionsGui/actions/workflows/main.yml/badge.svg)](https://github.com/P-PPPP/ActionsGui/actions/workflows/main.yml)  
 
-### 使用 GithubActions 调试 Windows Gui 应用 *-- 以剪映Srt Parser 为例实现语音转字幕服务*
-
-Github Actions 提供的Windows镜像支持窗口应用。这就为Gui调试提供了必备的基础条件。  
-在测试时使用使用了这两个Python 自动化库: `Uiautomation` `pyautogui`。
-编写测试脚本时建议使用 `UISpy.exe` 辅助定位元素。  
-初始化时Github Actions **不会** 下载空文件夹,若需要临时文件等,请手动创建。
+### 使用Github Actions 使用剪映转换字幕文件
 
 #### 使用方法
 - Fork 本仓库
@@ -14,7 +9,7 @@ Github Actions 提供的Windows镜像支持窗口应用。这就为Gui调试提�
 - 修改Config.json
 ```json
 {
-    "types":"",     # "requests","you-get","bili"
+    "types":"",    *"requests","you-get","bili"*
     "ASDB":true,
     "url":["BVXXXXXX","https://a.b.c"]
 }
@@ -22,7 +17,6 @@ Github Actions 提供的Windows镜像支持窗口应用。这就为Gui调试提�
 - 转换完成后会发布到Release下
 
 #### TODO
-- 加入`You-Get` 支持
 - 加入Github Secret 支持
 - 增加Webhook
 

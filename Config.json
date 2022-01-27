@@ -1,5 +1,6 @@
 {
-    "types":"bili",
-    "ASDB":true,
-    "url":["BV1LS4y1L7tC","BV19F411p7A1","BV17q4y1w7tC"]
+    "types":"requests",
+    "ASDB":false,
+    "url":[],
+    "webhooks":[]
 }

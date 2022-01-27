@@ -195,8 +195,6 @@ for i in config["url"]:
     except :
         pass
 
-PROCESSING = False
-
 os.system('%s%s' % ("taskkill /F /T /IM ","JianYingPro.exe"))
 if config["types"] == "bili":
     version = ','.join(config["url"])
@@ -207,6 +205,7 @@ with open(env_file, "a") as f:
     f.write(f"Version={version}")
     f.write("\n")
     f.write(f"Tags={version}")
+PROCESSING = False
 #Create zip
 assets = [fn for fn in os.listdir("./components/tmp") if any(fn.endswith(ext) for ext in [".png",".jpg",".srt"])]
 with zipfile.ZipFile("./components/tmp/All.zip",'w') as zip:

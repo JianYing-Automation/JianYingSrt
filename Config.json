@@ -1,6 +1,6 @@
 {
-    "types":"requests",
+    "types":"bili",
     "ASDB":false,
-    "url":[],
-    "webhooks":[]
+    "url":["BV1GJ411x7h7"],
+    "webhooks":["http://www.baidu.com"]
 }

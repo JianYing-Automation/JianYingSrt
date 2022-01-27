@@ -1,5 +1,6 @@
 {
     "types":"requests",
     "ASDB":false,
-    "url":[]
+    "url":[],
+    "webhooks":[]
 }

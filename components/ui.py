@@ -57,6 +57,21 @@ def Safty_Key():
             os._exit()
 t = _thread.start_new_thread(Safty_Key,())
 
+def detect_is_truely_fiished(item:list)->bool:
+    """检测是否完全拿到字幕文件,若没有则返回False"""
+    returnning = False
+    errors = []
+    item = [item] if type(item) == str else item
+    for name in item:
+        name = name if name.endswoth(".srt") else name + ".srt"
+        if os.path.exists(name):
+            srt = open(name,"r",encoding="utf-8").read().replace("\n","").replace(" ","")
+            if len(srt):
+                returning = True
+            else:
+                returning = False
+                errors.append(name)
+    return returning,errors
 
 def classname_include(WindowObj:Control,SubControlType:str,ClassName:str="",Name:str="")->int:
     """
@@ -288,16 +303,18 @@ def Multi_Video_Process(video_Path:str=os.path.abspath(CONFIG["Video_Path"]),Vid
 
         
         Tried_times = 0
-        result = 0
         with auto.UIAutomationInitializerInThread(debug=True):
-            while Single_Operation() !=0:
-                Tried_times+=1
-                if Tried_times>=3:
-                    break # 如果尝试3次仍然失败，则跳出循环
-                result = Single_Operation() 
+            result = Single_Operation()
+            while result!= 0:
+                Restart_Client()
+                result = Single_Operation()
+                if result == 0 or Tried_times>3:
+                    break
+                Tried_times += 1
+            process_result = True if result == 0 else False
         os.system(f"echo {Video_Item} with result  {result} (0 represents success)")
-        
-    return 0
+
+    return process_result
 
 
 if __name__ == "__main__":

@@ -1,13 +1,7 @@
-# Github Actions Gui Test Template
+# JianYingActionsSrt
 ![Chinese Readme](https://img.shields.io/badge/Docs-Chinese-green.svg) ![For_Asdb](https://img.shields.io/badge/For-ASDB-blue.svg) ![Python](https://img.shields.io/badge/Language-Python-green.svg)  [![CI](https://github.com/P-PPPP/ActionsGui/actions/workflows/main.yml/badge.svg)](https://github.com/P-PPPP/ActionsGui/actions/workflows/main.yml)  
 
-### Test Your Windows Application *-- Take Jianying VTT Services as Example.*
-
-Github provide virtual display on windows image. To combine the necessary condition of this project.  
-We use these python lib to debug `Uiautomation` `pyautogui`.  
-And Use `UISpy.exe` to help code.
-And when initialize a action. It **Wont** downlaod empty dirs, please make them manually.
-
+### Parse Srt File Using JianYing
 
 #### Useage
 - Fork this Repo
@@ -15,14 +9,14 @@ And when initialize a action. It **Wont** downlaod empty dirs, please make them 
 - Edit Config.json
 ```json
 {
-    "types":"",     #  "requests","you-get","bili"
+    "types":"",     *"requests","you-get","bili"*
     "ASDB":true,
     "url":["BVXXXXXX","https://a.b.c"]
 }
 ```
 - It will Pubished to github release
+
 #### TODO
-- add `You-Get` Support
 - add Github Secrets
 - add Webhook
 

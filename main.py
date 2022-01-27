@@ -213,4 +213,9 @@ with zipfile.ZipFile("./components/tmp/All.zip",'w') as zip:
         zip.write("./components/tmp/"+asset,asset)
 
 os.system(f"echo assets.zip created")
+
+#sending webhooks
+for webs in config["webhooks"]:
+    r = requests.post(webs,json={"SrtRunning":"ends"})
+    os.system(f"echo Send Webhook to {webs} with {r.status_code}")
 sys.exit(0)

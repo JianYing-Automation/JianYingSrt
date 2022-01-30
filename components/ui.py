@@ -6,15 +6,15 @@
         以某些特征确定窗口(不能以类名确定)
         请注意中英文输入法切换问题
         For Asdb 字幕转换 On Acions
+    
+    Fit version for Jianying 2.6.0
 """
-from requests.api import delete
 import uiautomation as auto
 from uiautomation.uiautomation import Control
 import time
 import os
 import keyboard
 import _thread
-import requests
 
 global PROCESSING
 
@@ -57,21 +57,6 @@ def Safty_Key():
             os._exit()
 t = _thread.start_new_thread(Safty_Key,())
 
-def detect_is_truely_fiished(item:list)->bool:
-    """检测是否完全拿到字幕文件,若没有则返回False"""
-    returnning = False
-    errors = []
-    item = [item] if type(item) == str else item
-    for name in item:
-        name = name if name.endswoth(".srt") else name + ".srt"
-        if os.path.exists(name):
-            srt = open(name,"r",encoding="utf-8").read().replace("\n","").replace(" ","")
-            if len(srt):
-                returning = True
-            else:
-                returning = False
-                errors.append(name)
-    return returning,errors
 
 def classname_include(WindowObj:Control,SubControlType:str,ClassName:str="",Name:str="")->int:
     """
@@ -212,7 +197,8 @@ def Single_Operation(stage:int=1)->int:
         auto.PressKey(13)#按下回车键
         Media_Window.PaneControl(searchDepth=1,foundIndex=classname_include(WindowObj=Media_Window,SubControlType="PaneControl",ClassName="ComboBox")).SendKeys(VIDEO_ITEM)
         #点击文件筐输入
-        Media_Window.ButtonControl(searchDepth=1).Click()#打开媒体
+        #Media_Window.ButtonControl(searchDepth=1).Click()#打开媒体
+        auto.SendKeys("{Alt}O",waitTime=CONFIG["Delay_Times"])#按下回车键
         time.sleep(CONFIG["Delay_Times"]*5)
         auto.DragDrop(x1=Media_Item[0],y1=Media_Item[1],x2=Buttom_Half_Window_Position.xcenter(),y2=Buttom_Half_Window_Position.ycenter(),waitTime=CONFIG["Delay_Times"]*2)
 
@@ -229,11 +215,12 @@ def Single_Operation(stage:int=1)->int:
         Unkown_Button = Top_Half_Window.TextControl(searchDepth=1,foundIndex=classname_include(WindowObj=Top_Half_Window,SubControlType="TextControl",Name="识别歌词")).BoundingRectangle
         auto.Click(x=int(Unkown_Button.xcenter()+Unkown_Button.width()*2),y=int(Unkown_Button.bottom),waitTime=CONFIG["Delay_Times"])
         auto.Click(x=int(Unkown_Button.xcenter()+Unkown_Button.width()*2),y=int(Unkown_Button.bottom+Unkown_Button.height()*2),waitTime=CONFIG["Delay_Times"])
+        last_time = os.path.getmtime(CONFIG["draft_content_directory"])
         while 1:
             #等待识别完成
             time.sleep(5)
             os.system("echo Waiting for recognition to complete")
-            if LocateStatus() == 1:
+            if LocateStatus() == 1 and os.path.getmtime(CONFIG["draft_content_directory"]) != last_time:
                 break
         tracks = draft_content.read_draft_content_src(CONFIG["draft_content_directory"])
         if __name__ == "__main__":

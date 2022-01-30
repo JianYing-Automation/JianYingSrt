@@ -158,6 +158,7 @@ def Single_Operation(stage:int=1)->int:
     Main_Window = auto.WindowControl(Name="JianyingPro", searchDepth=1)
     Main_Window.ShowWindow(3,waitTime=CONFIG["Delay_Times"])
     Main_Window.SetTopmost(True)
+    Main_Window.SetTopmost(False)
     #置顶锁,确保元素正常被点击
 
     Top_Half_Window = Main_Window.PaneControl(searchDepth=1,foundIndex=classname_include(WindowObj=Main_Window,SubControlType="PaneControl",ClassName="SplitView")).PaneControl(searchDepth=1)
@@ -220,7 +221,7 @@ def Single_Operation(stage:int=1)->int:
             #等待识别完成
             time.sleep(5)
             os.system("echo Waiting for recognition to complete")
-            if LocateStatus() == 1 and os.path.getmtime(CONFIG["draft_content_directory"]) != last_time:
+            if os.path.getmtime(CONFIG["draft_content_directory"]) != last_time:
                 break
         tracks = draft_content.read_draft_content_src(CONFIG["draft_content_directory"])
         if __name__ == "__main__":

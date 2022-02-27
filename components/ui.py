@@ -1,13 +1,11 @@
 # coding=utf-8
 """
     剪映 Srt Parser uiautomation Version For Github Actions
-    Version 2.0.0-alpha-Actions
+    Version 2.0.1-alpha-Actions
     @PPPPP
-        以某些特征确定窗口(不能以类名确定)
-        请注意中英文输入法切换问题
         For Asdb 字幕转换 On Acions
     
-    Fit version for Jianying 2.6.0
+    Fit version for Jianying 2.6.0 on Windows.
 """
 import uiautomation as auto
 from uiautomation.uiautomation import Control
@@ -22,8 +20,8 @@ VIDEO_PATH = ""
 VIDEO_ITEM = "" 
 
 CONFIG = {
-    "draft_content_directory":"",  #剪映草稿文件地址(结尾为draft_content.json)
-    "JianYing_Exe_Path":"",  #剪映客户端路径
+    "draft_content_directory":r"",  #剪映草稿文件地址(结尾为draft_content.json)
+    "JianYing_Exe_Path":r"",  #剪映客户端路径
     "Video_Path":"./tmp", #default
     "Delay_Times":1
 }
@@ -280,7 +278,9 @@ def Multi_Video_Process(video_Path:str=os.path.abspath(CONFIG["Video_Path"]),Vid
     if len(Video_Item):
         Video_List = Video_Item
     else:
-        Video_List = [fn for fn in os.listdir(VIDEO_PATH) if any(fn.endswith(format) for format in ['.mp4','.avi','.mkv','.mov','.flv'])]
+        Video_List = [fn for fn in os.listdir(VIDEO_PATH) if any(fn.endswith(format) for format in ['.mp4','.avi','.mkv','.mov','.flv','.m4a'])]
+
+    process_result = False
 
     for Video_Item in Video_List:
         if os.path.exists(VIDEO_PATH+"/"+Video_Item.split(".")[0]+".srt"):
@@ -291,6 +291,7 @@ def Multi_Video_Process(video_Path:str=os.path.abspath(CONFIG["Video_Path"]),Vid
 
         
         Tried_times = 0
+        
         with auto.UIAutomationInitializerInThread(debug=True):
             result = Single_Operation()
             while result!= 0:

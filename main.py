@@ -66,7 +66,7 @@ class Prepare():
     def DownloadJy(self):
 
         os.system("echo Start Download JianYingPro")
-        url = "https://lf3-package.vlabstatic.com/obj/faceu-packages/Jianying_pro_2_7_0_7723_jianyingpro_0.exe"
+        url = "https://lf3-package.vlabstatic.com/obj/faceu-packages/Jianying_pro_2_6_0_7223_jianyingpro_0"
         name = url.split("/")[-1]
         os.system(f"echo Downloading {name} ...")
         with closing(requests.session().get(url,stream=True)) as response:

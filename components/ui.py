@@ -20,8 +20,8 @@ VIDEO_PATH = ""
 VIDEO_ITEM = "" 
 
 CONFIG = {
-    "draft_content_directory":r"",  #剪映草稿文件地址(结尾为draft_content.json)
-    "JianYing_Exe_Path":r"",  #剪映客户端路径
+    "draft_content_directory":r"xxx\draft_content.json",  #剪映草稿文件地址(结尾为draft_content.json)
+    "JianYing_Exe_Path":r"xxx\JianyingPro.exe",  #剪映客户端路径
     "Video_Path":"./tmp", #default
     "Delay_Times":1
 }
@@ -268,17 +268,18 @@ def Multi_Video_Process(video_Path:str=os.path.abspath(CONFIG["Video_Path"]),Vid
     VIDEO_PATH = video_Path
     def convert_to_m4a(filename)->str:
         """转换视频为m4a 文件以排除码率问题"""
+        files = filename.split(".")[0]
         try:
-            os.system(f"ffmpeg -y -loglevel error -i {VIDEO_PATH}/{filename} -vn -codec copy {VIDEO_PATH}/{filename.split('.')[0]}.m4a")
+            os.system(f'ffmpeg -y -loglevel error -i "{VIDEO_PATH}/{filename}" -vn -codec copy "{VIDEO_PATH}/{files}.m4a"')
         except:
-            os.system(f".\\ffmpeg.exe -y -loglevel error -i {VIDEO_PATH}/{filename} -vn -codec copy {VIDEO_PATH}/{filename.split('.')[0]}.m4a") 
+            os.system(f'.\\ffmpeg.exe -y -loglevel error -i "{VIDEO_PATH}/{filename}" -vn -codec copy "{VIDEO_PATH}/{files}.m4a"') 
             #Choose local ffmpeg.exe
-        return f"{filename.split('.')[0]}.m4a"
+        return f"{files}.m4a"
 
     if len(Video_Item):
         Video_List = Video_Item
     else:
-        Video_List = [fn for fn in os.listdir(VIDEO_PATH) if any(fn.endswith(format) for format in ['.mp4','.avi','.mkv','.mov','.flv','.m4a'])]
+        Video_List = [fn for fn in os.listdir(VIDEO_PATH) if any(fn.endswith(format) for format in ['.mp4','.avi','.mkv','.mov','.flv'])]
 
     process_result = False
 

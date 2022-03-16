@@ -16,6 +16,12 @@
 ```
 - 转换完成后会发布到Release下
 
+#### Bug排查
+对于自动化测试而言,对于Bug的排查会有些复杂,在Release中会发布截图,可以根据这些信息排查Bug
+
+#### TagExist
+字幕转换完成之后会发布一个Release,Tag是Bv号,但如果这个Tag已经存在**则会报错**,尝试Clone项目到本地执行`tag git push origin :refs/tags/Tag名称` 即可
+
 #### TODO
 - 加入Github Secret 支持
 - 增加Webhook

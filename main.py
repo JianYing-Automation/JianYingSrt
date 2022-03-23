@@ -149,6 +149,7 @@ for i in config["url"]:
     if config["types"] == "aria2": return_code = video_Down.aria2(i)
     elif config["types"] == "bili": return_code = video_Down.bilibili(i,ASDB=config["ASDB"])
 
+print(ui.CONFIG)
 ui.Multi_Video_Process(video_Path="./components/tmp/")
 
 os.system('%s%s' % ("taskkill /F /T /IM ","JianYingPro.exe"))

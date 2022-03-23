@@ -115,16 +115,14 @@ def Restart_Client(isReopen:bool=True):
     """
     os.system('%s%s' % ("taskkill /F /T /IM ","JianYingPro.exe"))
     time.sleep(1)
-    if isReopen:
-        os.system(CONFIG["JianYing_Exe_Path"])
+    if isReopen: os.system(CONFIG["JianYing_Exe_Path"])
 
 def into_Main_Window():
     """
         选择草稿的界面,尝试进入主界面
     """
 
-    if LocateStatus() != 0:
-        os.system("echo Not In Main Page")
+    if LocateStatus() != 0: os.system("echo Not In Main Page")
 
     Intro_window = auto.WindowControl(Name="JianyingPro",searchDepth=1)
     Intro_window.SetTopmost(True)

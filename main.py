@@ -52,7 +52,8 @@ class Prepare():
 
     @timmer
     def DownloadJy(self):
-        os.system("choco install -Y ffmpeg aria2")
+        os.system("choco install -Y aria2")
+        os.system("choco install -Y ffmpeg")
         os.system("echo Start Download JianYingPro")
         url,name = "https://lf3-package.vlabstatic.com/obj/faceu-packages/Jianying_pro_2_8_0_7815_jianyingpro_0.exe" , url.split("/")[-1]
         os.system(f"echo Downloading {name} ...")

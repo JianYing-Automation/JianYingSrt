@@ -101,9 +101,7 @@ class Prepare():
         os.system('%s%s' % ("taskkill /F /T /IM ","JianYingPro.exe"))
         #Turn Off the VEDetector.exe
         Draft_Content_Path = self.Get_Draft_Content_Path(1)
-        os.system("echo "+ Draft_Content_Path)
         ui.CONFIG["draft_content_directory"] = Draft_Content_Path
-        os.system("echo ",ui.CONFIG)
         ui.CONFIG["JianYing_Exe_Path"] = targetPath+"\\JianyingPro.exe"
         return True
 

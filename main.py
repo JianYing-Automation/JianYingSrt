@@ -55,14 +55,14 @@ class Prepare():
         os.system("choco install -Y aria2")
         os.system("choco install -Y ffmpeg")
         os.system("echo Start Download JianYingPro")
-        url,name = "https://lf3-package.vlabstatic.com/obj/faceu-packages/Jianying_pro_2_8_0_7815_jianyingpro_0.exe" , url.split("/")[-1]
-        os.system(f"echo Downloading {name} ...")
-        os.system(f'aria2c -x 16 -s 16 -k 1M -o ./{name} "{url}"')
+        url= "https://lf3-package.vlabstatic.com/obj/faceu-packages/Jianying_pro_2_8_0_7815_jianyingpro_0.exe"
+        os.system(f"echo Downloading JainYing ...")
+        os.system(f'aria2c -x 16 -s 16 -k 1M -o ./123.exe "{url}"')
         os.system("echo JianYingPro download complete")
         
         def Install_JianYing():
             # it's necessary to run a install command with a new thread to avoid blocking
-            p = subprocess.Popen(name)
+            p = subprocess.Popen("./123.exe")
             while self.Status["Installed"]==False:
                 time.sleep(2)
             return p.kill()
@@ -101,7 +101,9 @@ class Prepare():
         os.system('%s%s' % ("taskkill /F /T /IM ","JianYingPro.exe"))
         #Turn Off the VEDetector.exe
         Draft_Content_Path = self.Get_Draft_Content_Path(1)
+        os.system("echo "+ Draft_Content_Path)
         ui.CONFIG["draft_content_directory"] = Draft_Content_Path
+        os.system("echo ",ui.CONFIG)
         ui.CONFIG["JianYing_Exe_Path"] = targetPath+"\\JianyingPro.exe"
         return True
 
@@ -141,7 +143,7 @@ def Upload_Thread():
 t = Thread(target=Upload_Thread,daemon=True)
 t.start()
 
-#Prepare()
+Prepare()
 
 os.system("echo Prepare Complete , Satrting Parse")
 

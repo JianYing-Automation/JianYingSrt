@@ -2,7 +2,7 @@
 ![English Readme](https://img.shields.io/badge/Docs-English-green.svg) ![For_Asdb](https://img.shields.io/badge/For-ASDB-blue.svg)  ![Python](https://img.shields.io/badge/Language-Python-green.svg) [![CI](https://github.com/P-PPPP/ActionsGui/actions/workflows/main.yml/badge.svg)](https://github.com/P-PPPP/ActionsGui/actions/workflows/main.yml)  
 
 ### 使用Github Actions 使用剪映转换字幕文件
-
+![202201300956_1_.gif](https://s2.loli.net/2022/03/24/G92tQ6RfJdYivPK.gif)  
 #### 使用方法
 - Fork 本仓库
 - 启用Actions

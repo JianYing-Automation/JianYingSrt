@@ -84,7 +84,7 @@ class Release:
     def Output_Version(self):
         env_file = os.getenv('GITHUB_ENV')
         tz = pytz.timezone('Asia/Shanghai')
-        date = datetime.datetime.now(tz).strftime("%Y.%m.%d_%H:%M")
+        date = datetime.datetime.now(tz).strftime("%Y.%m.%d_%H\%M")
         tags = base64.encodebytes(self.Release_Introduce.encode('utf-8')).decode('utf-8').replace('\n','') + date
         os.system(f"echo Introduce : {self.Release_Introduce} , date:{date} , tags:{tags}")
         with open(env_file, "a") as f:

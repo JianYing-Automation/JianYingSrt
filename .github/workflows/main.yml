@@ -28,10 +28,10 @@ jobs:
         uses: actions/setup-python@v2.3.1
         
       - name: Install Dependiences
-        run: pip install requests pyautogui uiautomation pillow keyboard you-get
+        run: pip install requests pyautogui uiautomation pillow keyboard pytz
       
       - name: runScripts
-        run: py main.py 
+        run: py actions.py 
         id: version
 
       - name: CreateRelease
@@ -40,7 +40,7 @@ jobs:
         with:
           draft: false
           prerelease: false
-          release_name: Subtitle_For_${{ env.Version }}
+          release_name: Subtitle_For_${{ env.Introduce }}
           tag_name: ${{ env.Tags }}
           body: Release ${{ env.Tags }}
         env:

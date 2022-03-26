@@ -72,8 +72,6 @@ class Actions:
         Jian_Ying_Process.kill()
         Etcs().Kill_All()
         after_list = os.listdir(Config["Base_Dir"]+"/User Data/Projects/com.lveditor.draft")
-        os.system("echo Before: {} ,After {} , {} ".format(before_list,after_list,Config["Base_Dir"]+"/User Data/Projects/com.lveditor.draft"))
-        os.system("echo {}".format(str(os.listdir(Config["Base_Dir"]+"/User Data/Projects"))))
         Config["Draft_Content_Json"] = Config["Base_Dir"] + "/User Data/Projects/com.lveditor.draft/" +  [i for i in after_list if i not in before_list][0] + "/draft_content.json"
 
 class Release:
@@ -105,7 +103,7 @@ if __name__ == "__main__":
         ui.CONFIG["draft_content_directory"] = Config["Draft_Content_Json"]
         ui.CONFIG["JianYing_Exe_Path"] = Config["JianYing_App_Path"]
         ui.Multi_Video_Process(video_path=Config['Sources_Path'])
-        os.removedirs(Config["Draft_Content_Json"].split("/")[0])
+
     else:
         import components.video_Down as vd
         from threading import Thread
@@ -124,8 +122,5 @@ if __name__ == "__main__":
             r.Release_Introduce += "\n" + item
             if "bv" in item.lower() or "bilibili.com" in item.lower(): vd.bilibili(item,ASDB=Config["ASDB"])
             else: vd.aria2(item)
-
-
-        os.removedirs(Config["Draft_Content_Json"].split("/")[0])
 
         r.Create_Assets(),r.Output_Version()

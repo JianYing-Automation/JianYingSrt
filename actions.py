@@ -82,11 +82,11 @@ class Release:
         os.system("7z a -tzip {}All.zip {}*.srt {}*.png {}*.jpg".format(Config["Sources_Path"],Config["Sources_Path"],Config["Sources_Path"],Config["Sources_Path"]))
 
     def Output_Version(self):
-
         env_file = os.getenv('GITHUB_ENV')
         tz = pytz.timezone('Asia/Shanghai')
         date = datetime.datetime.now(tz).strftime("%Y.%m.%d_%H:%M")
         tags = base64.encodebytes(self.Release_Introduce.encode('utf-8')).decode('utf-8').replace('\n','') + date
+        os.system(f"echo Introduce : {self.Release_Introduce}")
         with open(env_file, "a") as f:
             f.write(f"Version=1.0")
             f.write("\n")

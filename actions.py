@@ -57,10 +57,11 @@ class Actions:
             if os.path.exists(Config["JianYing_App_Path"]): break
         install_process.kill()
         Etcs().Kill_All()
+        while auto.WindowControl(searchDepth=1,ClassName="#32770").Exists(): auto.Click(x=Instance.BoundingRectangle.xcenter(),y=int(Instance.BoundingRectangle.ycenter()-Instance.BoundingRectangle.height()/8))
+
 
     @Start_Func
     def Took_Draft_Content_Path(self):
-
         Jian_Ying_Process = Etcs().Start_JianYing()
         while ui.Locate_Status() != 0:...
         before_list = os.listdir(Config["Base_Dir"]+"/User Data/Projects/com.lveditor.draft")
@@ -93,6 +94,7 @@ class Release:
             f.write(f"Introduce={self.Release_Introduce}")
 
 if __name__ == "__main__":
+    os.makedirs(Config["Release_Path"],exist_ok=True)
     if os.getenv('GITHUB_ENV') is None:
         # Run Locally
         Etcs().Get_Paths()

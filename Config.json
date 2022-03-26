@@ -1,6 +1,7 @@
 {
-    "types":"bili",
-    "ASDB":false,
-    "url":["BV1Xa411t78i"],
+    "Jy_Download_Url":"https://lf3-package.vlabstatic.com/obj/faceu-packages/Jianying_pro_2_8_0_7815_jianyingpro_0.exe",
+    "ASDB":true,
+    "url":["BV1D3411W7K6"],
+    "Sources_Path":"./components/tmp/",
     "webhooks":[]
 }

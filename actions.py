@@ -79,7 +79,7 @@ class Release:
 
     Release_Introduce = ""
     def Create_Assets(self):
-        os.system("7z a -tzip {}All.zip {}*.srt {}*.png {}*.jpg".format(Config["Release_Path"],Config["Sources_Path"],Config["Sources_Path"],Config["Sources_Path"]))
+        os.system("7z a -tzip {}All.zip {}*.srt {}*.png {}*.jpg".format(Config["Sources_Path"],Config["Sources_Path"],Config["Sources_Path"],Config["Sources_Path"]))
 
     def Output_Version(self):
 
@@ -116,11 +116,12 @@ if __name__ == "__main__":
         Actions().Took_Draft_Content_Path()
         ui.CONFIG["draft_content_directory"] = Config["Draft_Content_Json"]
         ui.CONFIG["JianYing_Exe_Path"] = Config["JianYing_App_Path"]
-        ui.Multi_Video_Process(video_path=Config['Sources_Path'])
-
+    
         for item in Config["url"]:
             r.Release_Introduce += "\n" + item
             if "bv" in item.lower() or "bilibili.com" in item.lower(): vd.bilibili(item,ASDB=Config["ASDB"])
             else: vd.aria2(item)
+
+        ui.Multi_Video_Process(video_path=Config['Sources_Path'])
 
         r.Create_Assets(),r.Output_Version()

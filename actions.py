@@ -94,7 +94,7 @@ class Release:
             f.write(f"Introduce={self.Release_Introduce}")
 
 if __name__ == "__main__":
-    os.makedirs(Config["Release_Path"],exist_ok=True)
+    os.makedirs(Config["Sources_Path"],exist_ok=True)
     if os.getenv('GITHUB_ENV') is None:
         # Run Locally
         Etcs().Get_Paths()

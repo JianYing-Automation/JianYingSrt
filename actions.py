@@ -71,7 +71,8 @@ class Actions:
         Jian_Ying_Process.kill()
         Etcs().Kill_All()
         after_list = os.listdir(Config["Base_Dir"]+"/User Data/Projects/com.lveditor.draft")
-        os.system("echo Before: {} ,After {} , {} , {}".format(before_list,after_list,Config["Base_Dir"]+"/User Data/Projects/com.lveditor.draft"),os.listdir(Config["Base_Dir"]))
+        os.system("echo Before: {} ,After {} , {} ".format(before_list,after_list,Config["Base_Dir"]+"/User Data/Projects/com.lveditor.draft"))
+        os.system("echo {}".format(str(os.listdir(Config["Base_Dir"]))))
         Config["Draft_Content_Json"] = Config["Base_Dir"] + "/User Data/Projects/com.lveditor.draft/" +  [i for i in after_list if i not in before_list][0] + "/draft_content.json"
 
 class Release:

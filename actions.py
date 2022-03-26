@@ -86,14 +86,14 @@ class Release:
         tz = pytz.timezone('Asia/Shanghai')
         date = datetime.datetime.now(tz).strftime("%Y.%m.%d_%H:%M")
         tags = base64.encodebytes(self.Release_Introduce.encode('utf-8')).decode('utf-8').replace('\n','') + date
-        os.system(f"echo Introduce : {self.Release_Introduce}")
-        os.system(f"echo env: {env_file}")
+        os.system(f"echo Introduce : {self.Release_Introduce} , date:{date} , tags:{tags}")
         with open(env_file, "a") as f:
             f.write(f"Version=1.0")
             f.write("\n")
             f.write(f"Tags={tags}")
             f.write("\n")
             f.write(f"Introduce={self.Release_Introduce}")
+        os.system(f"echo env: {env_file}")
 
 if __name__ == "__main__":
     os.makedirs(Config["Sources_Path"],exist_ok=True)
@@ -119,7 +119,7 @@ if __name__ == "__main__":
         ui.CONFIG["JianYing_Exe_Path"] = Config["JianYing_App_Path"]
     
         for item in Config["url"]:
-            r.Release_Introduce += "\n" + item
+            r.Release_Introduce += item+";"
             if "bv" in item.lower() or "bilibili.com" in item.lower(): vd.bilibili(item,ASDB=Config["ASDB"])
             else: vd.aria2(item)
 

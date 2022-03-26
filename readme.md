@@ -1,5 +1,5 @@
 # JianYingActionsSrt
-![English Readme](https://img.shields.io/badge/Docs-English-green.svg) ![For_Asdb](https://img.shields.io/badge/For-ASDB-blue.svg)  ![Python](https://img.shields.io/badge/Language-Python-green.svg) [![CI](https://github.com/P-PPPP/ActionsGui/actions/workflows/main.yml/badge.svg)](https://github.com/P-PPPP/ActionsGui/actions/workflows/main.yml)  
+![For_Asdb](https://img.shields.io/badge/For-ASDB-blue.svg)  ![Python](https://img.shields.io/badge/Language-Python-green.svg) [![CI](https://github.com/P-PPPP/ActionsGui/actions/workflows/main.yml/badge.svg)](https://github.com/P-PPPP/ActionsGui/actions/workflows/main.yml)  
 
 ### 使用Github Actions 使用剪映**自动**转换字幕文件
 ![202201300956_1_.gif](https://s2.loli.net/2022/03/24/G92tQ6RfJdYivPK.gif)  
@@ -9,9 +9,11 @@
 - 修改Config.json
 ```json
 {
-    "types":"",    *"requests","you-get","bili"*
-    "ASDB":true,
-    "url":["BVXXXXXX","https://a.b.c"]
+    "Jy_Download_Url":"https://lf3-package.vlabstatic.com/obj/faceu-packages/Jianying_pro_2_8_0_7815_jianyingpro_0.exe", #剪映的下载链接,不用动
+    "ASDB":true, 
+    "url":["BV1D3411W7K6"],
+    "Sources_Path":"./components/tmp/",
+    "webhooks":[]
 }
 ```
 - 转换完成后会发布到Release下
@@ -23,8 +25,7 @@
 字幕转换完成之后会发布一个Release,Tag是Bv号,但如果这个Tag已经存在**则会报错**,尝试Clone项目到本地执行`tag git push origin :refs/tags/Tag名称` 即可
 
 #### TODO
-- 加入Github Secret 支持
-- 增加Webhook
+- [x] 增加Webhook
 
 #### 许可证及引用
 

@@ -28,7 +28,7 @@ jobs:
         uses: actions/setup-python@v2.3.1
         
       - name: Install Dependiences
-        run: pip install requests pyautogui uiautomation pillow keyboard
+        run: pip install requests pyautogui uiautomation pillow keyboard pytz
       
       - name: runScripts
         run: py actions.py 

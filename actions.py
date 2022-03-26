@@ -68,11 +68,12 @@ class Actions:
         jy_window = auto.WindowControl(Name="JianyingPro",searchDepth=1)
         jy_window.SetTopmost()
         jy_window.TextControl(Name="HomePageStartProjectName",searchDepth=1).Click()
+        while ui.Locate_Status() != 1:...
         Jian_Ying_Process.kill()
         Etcs().Kill_All()
         after_list = os.listdir(Config["Base_Dir"]+"/User Data/Projects/com.lveditor.draft")
         os.system("echo Before: {} ,After {} , {} ".format(before_list,after_list,Config["Base_Dir"]+"/User Data/Projects/com.lveditor.draft"))
-        os.system("echo {}".format(str(os.listdir(Config["Base_Dir"]))))
+        os.system("echo {}".format(str(os.listdir(Config["Base_Dir"]+"/User Data/Projects"))))
         Config["Draft_Content_Json"] = Config["Base_Dir"] + "/User Data/Projects/com.lveditor.draft/" +  [i for i in after_list if i not in before_list][0] + "/draft_content.json"
 
 class Release:
@@ -112,17 +113,19 @@ if __name__ == "__main__":
         r = Release()
         Thread(target=Etcs().Screenshot,args=(1,),daemon=True).start()
 
-        for item in Config["url"]:
-            r.Release_Introduce += "\n" + item
-            if "bv" in item.lower() or "bilibili.com" in item.lower(): vd.bilibili(item,ASDB=Config["ASDB"])
-            else: vd.aria2(item)
-
         Etcs().Get_Paths()
         Actions().Install_JianYing()
         Actions().Took_Draft_Content_Path()
         ui.CONFIG["draft_content_directory"] = Config["Draft_Content_Json"]
         ui.CONFIG["JianYing_Exe_Path"] = Config["JianYing_App_Path"]
         ui.Multi_Video_Process(video_path=Config['Sources_Path'])
+
+        for item in Config["url"]:
+            r.Release_Introduce += "\n" + item
+            if "bv" in item.lower() or "bilibili.com" in item.lower(): vd.bilibili(item,ASDB=Config["ASDB"])
+            else: vd.aria2(item)
+
+
         os.removedirs(Config["Draft_Content_Json"].split("/")[0])
 
         r.Create_Assets(),r.Output_Version()

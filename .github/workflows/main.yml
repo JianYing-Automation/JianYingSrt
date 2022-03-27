@@ -22,10 +22,13 @@ jobs:
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v2
-
+    
           
       - name: Install Python
         uses: actions/setup-python@v2.3.1
+        with: 
+          python-version: '3.9'
+          cache: 'pip'
         
       - name: Install Dependiences
         run: pip install requests pyautogui uiautomation pillow keyboard pytz

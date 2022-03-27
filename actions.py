@@ -121,7 +121,7 @@ if __name__ == "__main__":
         for item in Config["url"]:
             r.Release_Introduce += item+";"
             if "bv" in item.lower() or "bilibili.com" in item.lower(): vd.bilibili(item,ASDB=Config["ASDB"])
-            else: vd.aria2(item)
+            else: vd.aria2(item,item.split("/")[-1])
 
         ui.Multi_Video_Process(video_path=Config['Sources_Path'])
 

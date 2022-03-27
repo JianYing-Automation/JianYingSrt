@@ -23,12 +23,14 @@ jobs:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v2
     
-      - name: Install Python & Dependencies
+      - name: Install Python
         uses: actions/setup-python@v2.3.1
         with: 
           python-version: '3.9'
           cache: 'pip'
-          run: pip install -r requirements.txt
+      
+      - name: Install Depedencies
+        run: pip install -r requirements.txt
       
       - name: runScripts
         run: py actions.py 

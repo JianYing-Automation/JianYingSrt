@@ -1,0 +1,6 @@
+requests 
+pyautogui 
+uiautomation 
+pillow 
+keyboard 
+pytz

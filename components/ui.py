@@ -179,7 +179,10 @@ def Single_Operation(media_path:str,media_name:str)->int:
         #点击默认的新建文本以收回默认展开
         if classname_include(WindowObj=Top_Half_Window,SubControlType="TextControl",Name="收藏"):
             Top_Half_Window.TextControl(searchDepth=1,foundIndex=classname_include(WindowObj=Top_Half_Window,SubControlType="TextControl",Name="新建文本")).Click()
-        #点击智能字幕
+        #点击智能字幕\
+        try:
+            last_time = os.path.getmtime(CONFIG["draft_content_directory"])
+        except:...
         Top_Half_Window.TextControl(searchDepth=1,foundIndex=classname_include(WindowObj=Top_Half_Window,SubControlType="TextControl",Name="智能字幕")).Click()
         Unkown_Button = Top_Half_Window.TextControl(searchDepth=1,foundIndex=classname_include(WindowObj=Top_Half_Window,SubControlType="TextControl",Name="识别歌词")).BoundingRectangle
         auto.Click(x=int(Unkown_Button.xcenter()+Unkown_Button.width()*2),y=int(Unkown_Button.bottom),waitTime=CONFIG["Delay_Times"])

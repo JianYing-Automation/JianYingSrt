@@ -65,7 +65,7 @@ def classname_include(WindowObj:Control,SubControlType:str,ClassName:str="",Name
             index_Found += 1
     return 0
 
-def Locate_Status():
+def Locate_Status(timeout_seconds:int=0.5):
     """
         确定现在的状态
             -1: 未启动剪映客户端
@@ -74,13 +74,13 @@ def Locate_Status():
             2: 正在转换字幕文件/正在加载
     """
     try:
-        if auto.WindowControl(Name="JianyingPro",searchDepth=1).Exists(maxSearchSeconds=0.1)==False: return -1
+        if auto.WindowControl(Name="JianyingPro",searchDepth=1).Exists(maxSearchSeconds=timeout_seconds)==False: return -1
     except : return -1
     # 未启动客户端自然为-1,但仍需考虑启动但未进入主界面的情况
     jy_main = auto.WindowControl(Name="JianyingPro",searchDepth=1)
-    if jy_main.TextControl(Name="HomePageStartProjectName",searchDepth=1).Exists(maxSearchSeconds=0.1): return 0
+    if jy_main.TextControl(Name="HomePageStartProjectName",searchDepth=1).Exists(maxSearchSeconds=timeout_seconds): return 0
     if classname_include(WindowObj=jy_main,SubControlType="WindowControl",ClassName="LoadingWindow"): return 2
-    if jy_main.GroupControl(Name="MainWindowTitleBarExportBtn",searchDepth=1).Exists(maxSearchSeconds=0.1): return 1
+    if jy_main.GroupControl(Name="MainWindowTitleBarExportBtn",searchDepth=1).Exists(maxSearchSeconds=timeout_seconds): return 1
     else: return -1
 
 def Restart_Client(isReopen:bool=True):

@@ -190,7 +190,7 @@ def Single_Operation(media_path:str,media_name:str)->int:
         os.system("echo Waiting For Srt Recognition")
         action_start_time = time.time()
         if os.path.exists(CONFIG["draft_content_directory"]):
-            last_time = os.path.getmtime(CONFIG["draft_content_directory"])
+            #last_time = os.path.getmtime(CONFIG["draft_content_directory"])
             while os.path.getmtime(CONFIG["draft_content_directory"]) == last_time:...
         else:
             while os.path.exists(CONFIG["draft_content_directory"]) == False:...

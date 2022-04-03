@@ -68,7 +68,7 @@ class Actions:
         jy_window = auto.WindowControl(Name="JianyingPro",searchDepth=1)
         jy_window.SetTopmost()
         jy_window.TextControl(Name="HomePageStartProjectName",searchDepth=1).Click()
-        while ui.Locate_Status() != 1:...
+        while ui.Locate_Status(timeout_seconds=2) != 1:...
         Jian_Ying_Process.kill()
         Etcs().Kill_All()
         after_list = os.listdir(Config["Base_Dir"]+"/User Data/Projects/com.lveditor.draft")

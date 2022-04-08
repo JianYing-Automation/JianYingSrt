@@ -12,8 +12,9 @@ def bilibili(bv:str,ASDB:bool=False,download_sourcer:int=0):
     # 2: 音频
     headers = {"User-Agent":"Mozilla/5.0"}
     if "bilibili" in bv: bv = bv.split("/")[-1].split("?")[0]
-    pages = requests.get(f"https://api.bilibili.com/x/web-interface/view?bvid={bv}",headers=headers).json()["data"]["pages"]
+    pages = requests.get(f"https://api.bilibili.com/x/web-interface/view?bvid={bv}",headers=headers)
     pages.encoding = 'utf-8'
+    pages = pages.json()["data"]["pages"]
     if ASDB: cids = [fn["cid"] for fn in pages
             if "弹幕" not in fn["part"]]
     else: cids = [fn["cid"] for fn in pages]

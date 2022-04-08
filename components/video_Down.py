@@ -20,6 +20,7 @@ def bilibili(bv:str,ASDB:bool=False,download_sourcer:int=0):
     for i in cids:
         if download_sourcer == 0:
             download_url = requests.get(f"https://api.bilibili.com/x/player/playurl?bvid={bv}&cid={i}&otype=json&&platform=html5&high_quality=0",headers=headers).json()["data"]["durl"][0]["url"]
+            print(requests.get(f"https://api.bilibili.com/x/player/playurl?bvid={bv}&cid={i}&qn=16",headers=headers).json())
         if download_sourcer == 1:
             download_url = requests.get(f"https://api.bilibili.com/x/player/playurl?bvid={bv}&cid={i}&qn=16",headers=headers).json()["data"]["durl"][0]["url"]
         if download_sourcer == 2:

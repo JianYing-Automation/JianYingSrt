@@ -1,4 +1,4 @@
-wheels
+wheel
 requests 
 pyautogui 
 uiautomation 

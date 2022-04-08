@@ -15,9 +15,8 @@ def bilibili(bv:str,ASDB:bool=False,download_sourcer:int=0):
 
     if ASDB: cids = [fn["cid"] for fn in requests.get(f"https://api.bilibili.com/x/web-interface/view?bvid={bv}",headers=headers).json()["data"]["pages"]
             if "弹幕" not in fn["part"]]
-    print(bv,cids)
     else: cids = [fn["cid"] for fn in requests.get(f"https://api.bilibili.com/x/web-interface/view?bvid={bv}",headers=headers).json()["data"]["pages"]]
-
+    os.system(f"echo Start Download For {bv} with {cids}")
     for i in cids:
         if download_sourcer == 0:
             download_url = requests.get(f"https://api.bilibili.com/x/player/playurl?bvid={bv}&cid={i}&otype=json&&platform=html5&high_quality=0",headers=headers).json()["data"]["durl"][0]["url"]

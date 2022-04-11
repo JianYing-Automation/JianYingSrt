@@ -63,7 +63,7 @@ class Actions:
     @Start_Func
     def Took_Draft_Content_Path(self):
         Jian_Ying_Process = Etcs().Start_JianYing()
-        while ui.Locate_Status() != 0:...
+        while ui.Locate_Status(timeout_seconds=2) != 0:...
         before_list = os.listdir(Config["Base_Dir"]+"/User Data/Projects/com.lveditor.draft")
         jy_window = auto.WindowControl(Name="JianyingPro",searchDepth=1)
         jy_window.SetTopmost()

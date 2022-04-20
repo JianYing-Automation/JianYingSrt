@@ -7,7 +7,6 @@
     
     Fit version for Jianying 2.8.0 on Windows.
 """
-from sys import stderr
 import uiautomation as auto
 from uiautomation.uiautomation import Control
 import time
@@ -24,7 +23,7 @@ VIDEO_ITEM = ""
 
 CONFIG = {
     "draft_content_directory":r"",  #剪映草稿文件地址(结尾为draft_content.json)
-    "JianYing_Exe_Path":r"",  #剪映客户端路径
+    "JianYing_Exe_Path":r"C:\Users\ppzzh\AppData\Local\JianyingPro\Apps/JianyingPro.exe",  #剪映客户端路径
     "Video_Path":"./tmp", #default
     "Delay_Times":1,
     "webhook":False,
@@ -84,16 +83,18 @@ def Locate_Status(timeout_seconds:int=0.5):
     else: return -1
 
 def Restart_Client(isReopen:bool=True):
+    def start_Jy(): return subprocess.Popen(CONFIG["JianYing_Exe_Path"],shell=True)
     """
         重启剪映客户端
             isClearTmp : 是否清理缓存
             isReopen: 是否重新启动
     """
-    os.system('%s%s' % ("taskkill /F /T /IM ","JianYingPro.exe"))
-    if isReopen: subprocess.Popen(CONFIG["JianYing_Exe_Path"])
+    subprocess.Popen('%s%s' % ("taskkill /F /T /IM ","JianYingPro.exe"),stdout=subprocess.DEVNULL,stderr=subprocess.DEVNULL).communicate()
+    while Locate_Status() != -1:...
+    if isReopen: 
+        _thread.start_new_thread(start_Jy,())
     else: return
-    while Locate_Status() == -1:
-        if Locate_Status() != -1: return
+    while Locate_Status() != -1:...
 
 def into_Main_Window():
     """
@@ -244,7 +245,7 @@ def Multi_Video_Process(video_path:str=os.path.abspath(CONFIG["Video_Path"])):
 if __name__ == "__main__":
     from srtParser import draft_content as draft_content
     from srtParser import simple_srt as simple_srt
-    Multi_Video_Process(video_Path="./tmp")
+    Restart_Client(True)
 else:
     from components.srtParser import draft_content as draft_content
     from components.srtParser import simple_srt as simple_srt

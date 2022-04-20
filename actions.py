@@ -6,6 +6,7 @@
 import pyautogui , time , os , subprocess, json , sys, subprocess , datetime , base64 , pytz
 import uiautomation as auto
 import components.ui as ui
+import components.video_Down as vd
 
 Start_Time = time.time()
 Config = json.loads(open("./Config.json","r",encoding="utf-8").read())
@@ -33,8 +34,9 @@ class Etcs:
         Config["Base_Dir"] ,Config["JianYing_App_Path"]  = Base_Dir , '/'.join([Base_Dir,"Apps/JianyingPro.exe"])
 
     def Kill_All(self):
-        os.system('%s%s' % ("taskkill /F /T /IM ","VEDetector.exe"))
-        os.system('%s%s' % ("taskkill /F /T /IM ","JianYingPro.exe"))
+        subprocess.Popen('%s%s' % ("taskkill /F /T /IM ","VEDetector.exe"),stdout=subprocess.DEVNULL,stderr=subprocess.DEVNULL).wait()
+        subprocess.Popen('%s%s' % ("taskkill /F /T /IM ","JianYingPro.exe"),stdout=subprocess.DEVNULL,stderr=subprocess.DEVNULL).wait()
+        return 
 
     def Start_JianYing(self):
         return subprocess.Popen(Config["JianYing_App_Path"],shell=True)
@@ -60,6 +62,7 @@ class Actions:
 
     @Start_Func
     def Took_Draft_Content_Path(self):
+        Etcs().Kill_All()
         Jian_Ying_Process = Etcs().Start_JianYing()
         while ui.Locate_Status(timeout_seconds=2) != 0:...
         before_list = os.listdir(Config["Base_Dir"]+"/User Data/Projects/com.lveditor.draft")
@@ -95,14 +98,15 @@ class Release:
 
 if __name__ == "__main__":
     Running_Type = sys.argv[1] if len(sys.argv) > 1 else "local"
+
     if Running_Type == "local":
         Etcs().Get_Paths()
         Actions().Took_Draft_Content_Path()
         ui.CONFIG["draft_content_directory"] = Config["Draft_Content_Json"]
         ui.CONFIG["JianYing_Exe_Path"] = Config["JianYing_App_Path"]
         ui.Multi_Video_Process(video_path=Config['Sources_Path'])
+
     elif Running_Type == "actions":
-        import components.video_Down as vd
         from threading import Thread
         # Run on Github
         r = Release()
@@ -123,3 +127,12 @@ if __name__ == "__main__":
         r.Create_Assets(),r.Output_Version()
 
     elif Running_Type == "install": Actions().Install_JianYing()
+    elif Running_Type == "nonactions":
+        Etcs().Get_Paths()
+        Actions().Took_Draft_Content_Path()
+        ui.CONFIG["draft_content_directory"] = Config["Draft_Content_Json"]
+        ui.CONFIG["JianYing_Exe_Path"] = Config["JianYing_App_Path"]
+        for item in Config["url"]:
+            if "bv" in item.lower() or "bilibili.com" in item.lower(): vd.bilibili(item,ASDB=Config["ASDB"],download_sourcer=0)
+            else: vd.aria2(item,item.split("/")[-1])
+        ui.Multi_Video_Process(video_path=Config['Sources_Path'])

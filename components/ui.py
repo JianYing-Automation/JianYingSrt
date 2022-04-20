@@ -167,7 +167,8 @@ def Single_Operation(media_path:str,media_name:str)->int:
         Media_Window.PaneControl(searchDepth=1,foundIndex=classname_include(WindowObj=Media_Window,SubControlType="PaneControl",ClassName="ComboBox")).SendKeys(media_name)
         #点击文件筐输入
         #Media_Window.ButtonControl(searchDepth=1).Click()#打开媒体
-        auto.SendKeys("{Alt}O",waitTime=CONFIG["Delay_Times"])#按下回车键
+        #auto.SendKeys("{Alt}O",waitTime=CONFIG["Delay_Times"])#按下回车键
+        auto.SendKeys("{Enter}")#按下回车键
         time.sleep(CONFIG["Delay_Times"]*2)
         auto.DragDrop(x1=Media_Item[0],y1=Media_Item[1],x2=Buttom_Half_Window_Position.xcenter(),y2=Buttom_Half_Window_Position.ycenter(),waitTime=CONFIG["Delay_Times"]*2)
 
@@ -233,9 +234,10 @@ def Multi_Video_Process(video_path:str=os.path.abspath(CONFIG["Video_Path"])):
         m4a_name = item.split('.')[0]+".m4a"
         subprocess.Popen(f'ffmpeg -y -i "{video_path}/{item}" -vn -codec copy "{video_path}/{m4a_name}"',shell=True,
             stderr=subprocess.DEVNULL,stdout=subprocess.DEVNULL).wait()
+        os.system(f"echo Start Processing {m4a_name}")
         result = Single_Operation(media_path=video_path,media_name=m4a_name)
-        if result == 0: print(f"{m4a_name} Success")
-        Restart_Client(False)
+        if result == 0: os.system(f"echo {m4a_name} Success")
+        Restart_Client(True)
         if CONFIG["webhook"] : requests.post(CONFIG["webhook_url"],headers={"User-Agent":"JySrtParser"},json={"content":f"{m4a_name} Success","time":time.time()})
 
 

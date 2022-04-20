@@ -3,14 +3,9 @@
     For Asdb 
     By @P_P_P_P_P
 """
-import pyautogui , time , os , subprocess, json
-import pytz
+import pyautogui , time , os , subprocess, json , sys, subprocess , datetime , base64 , pytz
 import uiautomation as auto
 import components.ui as ui
-import base64
-import datetime
-import subprocess
-import sys
 
 Start_Time = time.time()
 Config = json.loads(open("./Config.json","r",encoding="utf-8").read())
@@ -99,16 +94,14 @@ class Release:
         os.system(f"echo env: {env_file}")
 
 if __name__ == "__main__":
-    os.makedirs(Config["Sources_Path"],exist_ok=True)
-    if os.getenv('GITHUB_ENV') is None:
-        # Run Locally
+    Running_Type = sys.argv[1] if len(sys.argv) > 1 else "local"
+    if Running_Type == "local":
         Etcs().Get_Paths()
         Actions().Took_Draft_Content_Path()
         ui.CONFIG["draft_content_directory"] = Config["Draft_Content_Json"]
         ui.CONFIG["JianYing_Exe_Path"] = Config["JianYing_App_Path"]
         ui.Multi_Video_Process(video_path=Config['Sources_Path'])
-
-    else:
+    elif Running_Type == "actions":
         import components.video_Down as vd
         from threading import Thread
         # Run on Github
@@ -127,5 +120,6 @@ if __name__ == "__main__":
             else: vd.aria2(item,item.split("/")[-1])
 
         ui.Multi_Video_Process(video_path=Config['Sources_Path'])
-
         r.Create_Assets(),r.Output_Version()
+
+    elif Running_Type == "install": Actions().Install_JianYing()

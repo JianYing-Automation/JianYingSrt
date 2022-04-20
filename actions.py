@@ -10,6 +10,7 @@ import components.ui as ui
 import base64
 import datetime
 import subprocess
+import sys
 
 Start_Time = time.time()
 Config = json.loads(open("./Config.json","r",encoding="utf-8").read())

@@ -9,6 +9,7 @@ import uiautomation as auto
 import components.ui as ui
 import base64
 import datetime
+import subprocess
 
 Start_Time = time.time()
 Config = json.loads(open("./Config.json","r",encoding="utf-8").read())
@@ -46,8 +47,9 @@ class Actions:
 
     @Start_Func
     def Install_JianYing(self):
-        os.system("choco install -y ffmpeg aria2 7zip")
-        os.system("aria2c -x 16 -s 16 -k 1M -o ./_tmp.exe {}".format(Config["Jy_Download_Url"]))
+        subprocess.Popen("choco install -y ffmpeg aria2 7zip",shell=False,stdout=subprocess.DEVNULL,stderr=subprocess.DEVNULL).wait()
+        subprocess.Popen(f"aria2c  -x 16 -s 16 -k 1M -o ./_tmp.exe {Config['Jy_Download_Url']}",shell=False,stdout=subprocess.DEVNULL,stderr=subprocess.DEVNULL).wait()
+        os.system(f"echo Finish Install Dependiencies")
         install_process = subprocess.Popen("_tmp.exe",shell=True)
         while True:
             if auto.WindowControl(searchDepth=1,ClassName="#32770").Exists(): break

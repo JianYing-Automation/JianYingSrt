@@ -1,9 +1,9 @@
 import os
 import requests
-
+import subprocess
 
 def aria2(url,name,args:str=""):
-    return os.system(f'aria2c -x 16 -s 16 -k 1M -o "./components/tmp/{name}" "{url}" {args}')
+    return subprocess.Popen(f'aria2c -x 16 -s 16 -k 1M -o "./components/tmp/{name}" "{url}" {args}',shell=False,stdout=subprocess.DEVNULL,stderr=subprocess.DEVNULL).wait()
 
 def bilibili(bv:str,ASDB:bool=False,download_sourcer:int=0):
     # Sourcer 

@@ -7,7 +7,6 @@
     
     Fit version for Jianying 2.8.0 on Windows.
 """
-from sys import stderr
 import uiautomation as auto
 from uiautomation.uiautomation import Control
 import time
@@ -24,7 +23,7 @@ VIDEO_ITEM = ""
 
 CONFIG = {
     "draft_content_directory":r"",  #剪映草稿文件地址(结尾为draft_content.json)
-    "JianYing_Exe_Path":r"",  #剪映客户端路径
+    "JianYing_Exe_Path":r"C:\Users\ppzzh\AppData\Local\JianyingPro\Apps/JianyingPro.exe",  #剪映客户端路径
     "Video_Path":"./tmp", #default
     "Delay_Times":1,
     "webhook":False,
@@ -84,16 +83,18 @@ def Locate_Status(timeout_seconds:int=0.5):
     else: return -1
 
 def Restart_Client(isReopen:bool=True):
+    def start_Jy(): return subprocess.Popen(CONFIG["JianYing_Exe_Path"],shell=True)
     """
         重启剪映客户端
             isClearTmp : 是否清理缓存
             isReopen: 是否重新启动
     """
-    os.system('%s%s' % ("taskkill /F /T /IM ","JianYingPro.exe"))
-    if isReopen: subprocess.Popen(CONFIG["JianYing_Exe_Path"])
+    subprocess.Popen('%s%s' % ("taskkill /F /T /IM ","JianYingPro.exe"),stdout=subprocess.DEVNULL,stderr=subprocess.DEVNULL).communicate()
+    while Locate_Status() != -1:...
+    if isReopen: 
+        _thread.start_new_thread(start_Jy,())
     else: return
-    while Locate_Status() == -1:
-        if Locate_Status() != -1: return
+    while Locate_Status() != -1:...
 
 def into_Main_Window():
     """
@@ -167,7 +168,8 @@ def Single_Operation(media_path:str,media_name:str)->int:
         Media_Window.PaneControl(searchDepth=1,foundIndex=classname_include(WindowObj=Media_Window,SubControlType="PaneControl",ClassName="ComboBox")).SendKeys(media_name)
         #点击文件筐输入
         #Media_Window.ButtonControl(searchDepth=1).Click()#打开媒体
-        auto.SendKeys("{Alt}O",waitTime=CONFIG["Delay_Times"])#按下回车键
+        #auto.SendKeys("{Alt}O",waitTime=CONFIG["Delay_Times"])#按下回车键
+        auto.SendKeys("{Enter}")#按下回车键
         time.sleep(CONFIG["Delay_Times"]*2)
         auto.DragDrop(x1=Media_Item[0],y1=Media_Item[1],x2=Buttom_Half_Window_Position.xcenter(),y2=Buttom_Half_Window_Position.ycenter(),waitTime=CONFIG["Delay_Times"]*2)
 
@@ -233,16 +235,17 @@ def Multi_Video_Process(video_path:str=os.path.abspath(CONFIG["Video_Path"])):
         m4a_name = item.split('.')[0]+".m4a"
         subprocess.Popen(f'ffmpeg -y -i "{video_path}/{item}" -vn -codec copy "{video_path}/{m4a_name}"',shell=True,
             stderr=subprocess.DEVNULL,stdout=subprocess.DEVNULL).wait()
+        os.system(f"echo Start Processing {m4a_name}")
         result = Single_Operation(media_path=video_path,media_name=m4a_name)
-        if result == 0: print(f"{m4a_name} Success")
-        Restart_Client(False)
+        if result == 0: os.system(f"echo {m4a_name} Success")
+        Restart_Client(True)
         if CONFIG["webhook"] : requests.post(CONFIG["webhook_url"],headers={"User-Agent":"JySrtParser"},json={"content":f"{m4a_name} Success","time":time.time()})
 
 
 if __name__ == "__main__":
     from srtParser import draft_content as draft_content
     from srtParser import simple_srt as simple_srt
-    Multi_Video_Process(video_Path="./tmp")
+    Restart_Client(True)
 else:
     from components.srtParser import draft_content as draft_content
     from components.srtParser import simple_srt as simple_srt

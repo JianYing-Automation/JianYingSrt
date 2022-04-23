@@ -3,7 +3,7 @@
     For Asdb 
     By @P_P_P_P_P
 """
-import pyautogui , time , os , subprocess, json , sys, subprocess , datetime , base64 , pytz
+import pyautogui , time , os , subprocess, json , sys, subprocess , datetime , base64 , pytz, os
 import uiautomation as auto
 import components.ui as ui
 import components.video_Down as vd
@@ -45,6 +45,7 @@ class Actions:
 
     @Start_Func
     def Install_JianYing(self):
+        os.mkdir("./components/tmp") if not os.path.exists("./components/tmp") else None
         subprocess.Popen("choco install -y ffmpeg aria2 7zip",shell=False,stdout=subprocess.DEVNULL,stderr=subprocess.DEVNULL).wait()
         subprocess.Popen(f"aria2c  -x 16 -s 16 -k 1M -o ./_tmp.exe {Config['Jy_Download_Url']}",shell=False,stdout=subprocess.DEVNULL,stderr=subprocess.DEVNULL).wait()
         os.system(f"echo Finish Install Dependiencies")

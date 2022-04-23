@@ -9,20 +9,28 @@
 - 修改Config.json
 ```json
 {
-    "Jy_Download_Url":"https://lf3-package.vlabstatic.com/obj/faceu-packages/Jianying_pro_2_8_0_7815_jianyingpro_0.exe", #剪映的下载链接,不用动
-    "ASDB":true, 
-    "url":["BV1D3411W7K6"],
-    "Sources_Path":"./components/tmp/",
-    "webhooks":[]
+    "Jy_Download_Url":"https://xxx/Jianying_pro.exe", //剪映的下载链接,不用动
+    "ASDB":true,  //若为True,则对于分P中含有“弹幕”的文件将不会识别
+    "url":["BV1D3411W7K6"], // 支持BV号和直链
+    "Sources_Path":"./components/tmp/", // 本地运行时可以修改媒体目标文件夹
+    "webhooks":[] // 支持注册 webhooks 用于工作流
 }
 ```
-- 转换完成后会发布到Release下
+
+##### 本地调用
+文件提供了四种方式
+```
+    Args    Description
+    local(Default)   本地调用(把自己的视频/媒体放到Config.json指定的目录下进行转换)
+    nonactions  不安装剪映,其他和GitHub actions 一样
+    install     仅安装剪映(测试)
+    actions     用于GitHub actions 安装剪映并按照Config.json中的媒体链接转换文件
+```
+
+- Github actions 转换完成后会发布到Release下
 
 #### Bug排查
 对于自动化测试而言,对于Bug的排查会有些复杂,在Release中会发布截图,可以根据这些信息排查Bug
-
-#### TagExist
-字幕转换完成之后会发布一个Release,Tag是Bv号,但如果这个Tag已经存在**则会报错**,尝试Clone项目到本地执行`tag git push origin :refs/tags/Tag名称` 即可
 
 #### TODO
 - [x] 增加Webhook

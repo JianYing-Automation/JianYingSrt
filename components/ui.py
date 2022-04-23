@@ -5,7 +5,7 @@
     @PPPPP
         For Asdb 字幕转换 On Acions
     
-    Fit version for Jianying 2.8.0 on Windows.
+    Fit version for Jianying 2.9.0 on Windows.
 """
 import uiautomation as auto
 from uiautomation.uiautomation import Control
@@ -23,7 +23,7 @@ VIDEO_ITEM = ""
 
 CONFIG = {
     "draft_content_directory":r"",  #剪映草稿文件地址(结尾为draft_content.json)
-    "JianYing_Exe_Path":r"C:\Users\ppzzh\AppData\Local\JianyingPro\Apps/JianyingPro.exe",  #剪映客户端路径
+    "JianYing_Exe_Path":r"",  #剪映客户端路径
     "Video_Path":"./tmp", #default
     "Delay_Times":1,
     "webhook":False,
@@ -171,6 +171,7 @@ def Single_Operation(media_path:str,media_name:str)->int:
         #auto.SendKeys("{Alt}O",waitTime=CONFIG["Delay_Times"])#按下回车键
         auto.SendKeys("{Enter}")#按下回车键
         time.sleep(CONFIG["Delay_Times"]*2)
+        auto.MoveTo(x=Media_Item[0],y=Media_Item[1],waitTime=CONFIG["Delay_Times"]) # 防止元素没加载完成就拖动导致的文件无法选中
         auto.DragDrop(x1=Media_Item[0],y1=Media_Item[1],x2=Buttom_Half_Window_Position.xcenter(),y2=Buttom_Half_Window_Position.ycenter(),waitTime=CONFIG["Delay_Times"]*2)
 
     def srt_identify():
@@ -185,7 +186,7 @@ def Single_Operation(media_path:str,media_name:str)->int:
         try:
             last_time = os.path.getmtime(CONFIG["draft_content_directory"])
         except:...
-        Top_Half_Window.TextControl(searchDepth=1,foundIndex=classname_include(WindowObj=Top_Half_Window,SubControlType="TextControl",Name="智能字幕")).Click()
+        Top_Half_Window.TextControl(searchDepth=1,foundIndex=classname_include(WindowObj=Top_Half_Window,SubControlType="TextControl",Name="智能字幕")).Click(waitTime=CONFIG["Delay_Times"]*2) # 增加了等待时间,防止点击时文件还没加载完成
         Unkown_Button = Top_Half_Window.TextControl(searchDepth=1,foundIndex=classname_include(WindowObj=Top_Half_Window,SubControlType="TextControl",Name="识别歌词")).BoundingRectangle
         auto.Click(x=int(Unkown_Button.xcenter()+Unkown_Button.width()*2),y=int(Unkown_Button.bottom),waitTime=CONFIG["Delay_Times"])
         auto.Click(x=int(Unkown_Button.xcenter()+Unkown_Button.width()*2),y=int(Unkown_Button.bottom+Unkown_Button.height()*2),waitTime=CONFIG["Delay_Times"])
@@ -240,7 +241,8 @@ def Multi_Video_Process(video_path:str=os.path.abspath(CONFIG["Video_Path"])):
         if result == 0: os.system(f"echo {m4a_name} Success")
         Restart_Client(True)
         if CONFIG["webhook"] : requests.post(CONFIG["webhook_url"],headers={"User-Agent":"JySrtParser"},json={"content":f"{m4a_name} Success","time":time.time()})
-
+        
+    Restart_Client(False)
 
 if __name__ == "__main__":
     from srtParser import draft_content as draft_content

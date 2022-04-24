@@ -189,7 +189,7 @@ def Single_Operation(media_path:str,media_name:str)->int:
         Unkown_Button = Top_Half_Window.TextControl(searchDepth=1,foundIndex=classname_include(WindowObj=Top_Half_Window,SubControlType="TextControl",Name="识别歌词")).BoundingRectangle
         auto.Click(x=int(Unkown_Button.xcenter()+Unkown_Button.width()*2),y=int(Unkown_Button.bottom),waitTime=CONFIG["Delay_Times"])
         auto.Click(x=int(Unkown_Button.xcenter()+Unkown_Button.width()*2),y=int(Unkown_Button.bottom+Unkown_Button.height()*2),waitTime=CONFIG["Delay_Times"])
-        os.system("echo Waiting For Srt Recognition")
+        os.system("echo Waiting For Srt Recognition Finished")
         action_start_time = time.time()
         if os.path.exists(CONFIG["draft_content_directory"]):
             #last_time = os.path.getmtime(CONFIG["draft_content_directory"])

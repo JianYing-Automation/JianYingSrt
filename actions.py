@@ -46,8 +46,8 @@ class Actions:
     @Start_Func
     def Install_JianYing(self):
         os.mkdir("./components/tmp") if not os.path.exists("./components/tmp") else None
-        subprocess.run("choco install -y ffmpeg aria2 7zip",shell=False
-            ,stdout=subprocess.DEVNULL,stderr=subprocess.DEVNULL)
+        #subprocess.run("choco install -y ffmpeg aria2 7zip",shell=False
+        #    ,stdout=subprocess.DEVNULL,stderr=subprocess.DEVNULL)
         subprocess.Popen(f"aria2c  -x 16 -s 16 -k 1M -o ./_tmp.exe {Config['Jy_Download_Url']}",shell=False,stdout=subprocess.DEVNULL,stderr=subprocess.DEVNULL).wait()
         os.system(f"echo Finish Install Dependiencies")
         install_process = subprocess.Popen("_tmp.exe",shell=True)

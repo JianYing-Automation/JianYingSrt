@@ -3,7 +3,7 @@
     For Asdb 
     By @P_P_P_P_P
 """
-import pyautogui , time , os , subprocess, json , sys, subprocess , datetime , base64 , pytz
+import pyautogui , time , os , subprocess, json , sys, subprocess , datetime , base64 , pytz, os
 import uiautomation as auto
 import components.ui as ui
 import components.video_Down as vd
@@ -45,7 +45,9 @@ class Actions:
 
     @Start_Func
     def Install_JianYing(self):
-        subprocess.Popen("choco install -y ffmpeg aria2 7zip",shell=False,stdout=subprocess.DEVNULL,stderr=subprocess.DEVNULL).wait()
+        os.mkdir("./components/tmp") if not os.path.exists("./components/tmp") else None
+        #subprocess.run("choco install -y ffmpeg aria2 7zip",shell=False
+        #    ,stdout=subprocess.DEVNULL,stderr=subprocess.DEVNULL)
         subprocess.Popen(f"aria2c  -x 16 -s 16 -k 1M -o ./_tmp.exe {Config['Jy_Download_Url']}",shell=False,stdout=subprocess.DEVNULL,stderr=subprocess.DEVNULL).wait()
         os.system(f"echo Finish Install Dependiencies")
         install_process = subprocess.Popen("_tmp.exe",shell=True)
@@ -122,7 +124,6 @@ if __name__ == "__main__":
             r.Release_Introduce += item+";"
             if "bv" in item.lower() or "bilibili.com" in item.lower(): vd.bilibili(item,ASDB=Config["ASDB"],download_sourcer=0)
             else: vd.aria2(item,item.split("/")[-1])
-
         ui.Multi_Video_Process(video_path=Config['Sources_Path'])
         r.Create_Assets(),r.Output_Version()
 

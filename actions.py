@@ -124,9 +124,7 @@ if __name__ == "__main__":
             r.Release_Introduce += item+";"
             if "bv" in item.lower() or "bilibili.com" in item.lower(): vd.bilibili(item,ASDB=Config["ASDB"],download_sourcer=0)
             else: vd.aria2(item,item.split("/")[-1])
-        try:
-            ui.Multi_Video_Process(video_path=Config['Sources_Path'])
-        except Exception as e: os.system(f"echo {e}")
+        ui.Multi_Video_Process(video_path=Config['Sources_Path'])
         r.Create_Assets(),r.Output_Version()
 
     elif Running_Type == "install": Actions().Install_JianYing()

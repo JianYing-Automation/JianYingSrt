@@ -122,7 +122,6 @@ def Single_Operation(media_path:str,media_name:str)->int:
     while Locate_Status() !=1:
         Restart_Client()
         into_Main_Window()
-    print(os.listdir(media_path))
     #### 定义一些Position
     Main_Window = auto.WindowControl(Name="JianyingPro", searchDepth=1)
     Main_Window.ShowWindow(3,waitTime=CONFIG["Delay_Times"])

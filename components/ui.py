@@ -234,9 +234,8 @@ def Multi_Video_Process(video_path:str=os.path.abspath(CONFIG["Video_Path"])):
     media_list = [fn for fn in os.listdir(video_path) if any(fn.endswith(format) for format in ['.mp4','.avi','.mkv','.mov','.flv'])]
     for item in media_list:
         m4a_name = item.split('.')[0]+".m4a"
-        os.system("ffmpeg -v")
-        os.system(f'ffmpeg -y -i "{video_path}/{item}" "{video_path}/{m4a_name}"')
-            #stderr=subprocess.DEVNULL,stdout=subprocess.DEVNULL).wait()
+        subprocess.Popen(f'ffmpeg -y -i "{video_path}/{item}" -vn -codec copy "{video_path}/{m4a_name}"',shell=True,
+            stderr=subprocess.DEVNULL,stdout=subprocess.DEVNULL).wait()
         os.system(f"echo Start Processing {m4a_name}")
         result = Single_Operation(media_path=video_path,media_name=m4a_name)
         if result == 0: os.system(f"echo {m4a_name} Success")

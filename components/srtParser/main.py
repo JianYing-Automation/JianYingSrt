@@ -7,7 +7,7 @@ def SrtMain(args):
     draft_content_directory = args[0]
     
     if not draft_content_directory:
-        draft_content_directory = r'C:\\Users\\ppzzh\\AppData\\Local\\JianyingPro\\User Data\\Projects\\com.lveditor.draft\\202112012243\\draft_content.json'
+        draft_content_directory = r''
 
     tracks = read_draft_content_src(draft_content_directory)
 

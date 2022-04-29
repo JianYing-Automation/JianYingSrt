@@ -13,10 +13,10 @@ Config = json.loads(open("./Config.json","r",encoding="utf-8").read())
 
 def Start_Func(func):
     def deco(*args, **kwargs):
-        os.system('echo Function: {_funcname_}'.format(_funcname_=func.__name__))
+        os.system('echo Start: {_funcname_}'.format(_funcname_=func.__name__))
         start_time = time.time()
         res = func(*args, **kwargs)
-        os.system('echo Function :{_funcname_} Finished in  {_time_} Sec'
+        os.system('echo Finished:{_funcname_}  in  {_time_} Sec'
               .format(_funcname_=func.__name__, _time_=(time.time() - start_time)))
         return res
     return deco

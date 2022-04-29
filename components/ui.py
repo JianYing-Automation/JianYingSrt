@@ -157,6 +157,7 @@ def Single_Operation(media_path:str,media_name:str)->int:
         ##########################
         #########添加文件#########
         ##########################
+        while not classname_include(WindowObj=Main_Window,SubControlType="WindowObj"):... #Fix issue 8
         Media_Window = Main_Window.WindowControl(searchDepth=1)
         Title_x = Media_Window.TitleBarControl(searchDepth=1).BoundingRectangle.left
         Title_width = Media_Window.TitleBarControl(searchDepth=1).BoundingRectangle.width()

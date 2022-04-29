@@ -3,5 +3,6 @@
     "ASDB":true,
     "url":[""],
     "Sources_Path":"./components/tmp/",
-    "webhooks":[]
+    "webhooks":[],
+    "DEBUG":true
 }

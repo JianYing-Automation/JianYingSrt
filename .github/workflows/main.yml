@@ -54,5 +54,5 @@ jobs:
         with:
          upload_url: ${{ steps.create_release.outputs.upload_url }}
          asset_path: ./components/tmp/All.zip
-         asset_name: All_${{ env.Version }}.zip
+         asset_name: All.zip
          asset_content_type: application/zip

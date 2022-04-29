@@ -128,6 +128,7 @@ if __name__ == "__main__":
             ui.Multi_Video_Process(video_path=Config['Sources_Path'])
         except Exception as e:
             if not Config["DEBUG"]:  raise e
+            else: os.system(f"echo Error occured:{e}")
         r.Create_Assets(),r.Output_Version()
 
     elif Running_Type == "install": Actions().Install_JianYing()

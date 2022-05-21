@@ -1,7 +1,7 @@
 {
     "Jy_Download_Url":"https://lf3-package.vlabstatic.com/obj/faceu-packages/Jianying_pro_2_9_0_8209_jianyingpro_0.exe",
     "ASDB":true,
-    "url":["BV1XZ4y187tF","BV1aS4y1B7LL","BV19r4y1x7Tm","BV1MP4y1F7FB","BV1gr4y1b7yJ","BV1sr4y1b7AP","BV1rY4y147mP"],
+    "url":["BV1r34y1E7Lc"],
     "Sources_Path":"./components/tmp/",
     "webhooks":[],
     "DEBUG":true

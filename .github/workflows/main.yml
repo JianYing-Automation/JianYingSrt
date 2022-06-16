@@ -36,6 +36,7 @@ jobs:
         id: version
 
       - name: CreateRelease
+        if: always()
         uses: actions/create-release@v1
         id: create_release
         with:
@@ -48,6 +49,7 @@ jobs:
           GITHUB_TOKEN: ${{ github.token }}
       
       - name: UploadAssets
+        if: always()
         uses: actions/upload-release-asset@v1
         env:
           GITHUB_TOKEN: ${{ github.token }}

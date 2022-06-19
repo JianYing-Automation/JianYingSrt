@@ -157,7 +157,9 @@ def Single_Operation(media_path:str,media_name:str)->int:
         #########添加文件#########
         ##########################
         while not classname_include(WindowObj=Main_Window,SubControlType="WindowObj"):... #Fix issue 8
-        Media_Window = Main_Window.WindowControl(searchDepth=1)
+        while not Main_Window.WindowControl(searchDepth=1).Exists(searchIntervalSeconds=0.5): time.sleep(0.5) # Wait Unitl Media Window Loadded Out
+        # Fix issue 10
+        Media_Window = Main_Window.WindowControl(searchDepth=1) # 媒体选择框
         Title_x = Media_Window.TitleBarControl(searchDepth=1).BoundingRectangle.left
         Title_width = Media_Window.TitleBarControl(searchDepth=1).BoundingRectangle.width()
         Title_bottom = Media_Window.TitleBarControl(searchDepth=1).BoundingRectangle.bottom

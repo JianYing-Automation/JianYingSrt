@@ -40,7 +40,7 @@ def Safty_Key():
             print('Pressed Ctrl+x')
             _thread.interrupt_main()
             auto.WindowControl(Name="JianyingPro", searchDepth=1).SetTopmost(False)
-            os._exit()
+            os._exit(0)
 t = _thread.start_new_thread(Safty_Key,())
 
 

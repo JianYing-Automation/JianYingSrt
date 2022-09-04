@@ -13,8 +13,7 @@ def DownloadJianYing():
 
 def aria2(url:str,header:str,p_name:str):
     return run(" ".join(["aria2c","-x","16","-s","16","-k","1M","-o",p_name,url,header])
-        ,stdout=DEVNULL,stderr=DEVNULL,shell=True
-    )
+    ,stdout=DEVNULL,stderr=DEVNULL )
 
 def ga():
     """

@@ -10,7 +10,7 @@ from utils import  bilibili_schema , prepare_env , download_bilibili , media_typ
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.DEBUG)
 console_handler = logging.StreamHandler()
-file_handler = logging.FileHandler(filename=f'{time.time()}.log', encoding='UTF-8')
+file_handler = logging.FileHandler(filename=f'log.log', encoding='UTF-8')
 logger.addHandler(console_handler)
 logger.addHandler(file_handler)
 formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
@@ -62,39 +62,42 @@ if __name__ == "__main__":
         if type(i["Webhooks"]) == list:
             for n in i["Webhooks"]: assert n < _w_n , IndexError(f"Webhook Sequence{n} Should Less Than Num {_w_n} | Webhook 序号{n} 应小于总个数 {_w_n}")
         if i["Position"] == "Local": assert os.path.exists(i["Url"]) == True , FileNotFoundError(f"Couldn't Found Media | 文件不存在 ")
-        if i["Schema"] != None:
-            if i["Position"] != "BiliBili": logging.warn("Dismatch Attribute(Schema) | 属性错误(Schema)")
-            locals()[i["Schema"]] # This Will Through An Error If Your Schema Is Error
+        if i.get("Schema"):
+            if i["Schema"] != None:
+                if i["Position"] != "BiliBili": logging.warn("Dismatch Attribute(Schema) | 属性错误(Schema)")
+                getattr(bilibili_schema,i["Schema"]) # This Will Through An Error If Your Schema Is Error
         if i["Position"] == "BiliBili":assert i["Bv"] != None, FileNotFoundError("No Bv Found | 未填写Bv号")
     del _w_n
 
     # 下载安装并启动剪映
     if (args.install_jianying == True) or (Config["Basic"]["Install_JianYing"]==True): install_jianYing()
     Api.Logic_warp._kill_jianYing()
-    if Config["Basic"]["JianYing_Path"] != None: _ins = Api.Jy_Warp.Instance(Start_Jy=True,JianYing_Exe_Path=Config["Basic"]["JianYing_Path"])
+    if Config["Basic"]["JianYing_Path"] != None and Config["Basic"]["JianYing_Path"] != "": _ins = Api.Jy_Warp.Instance(Start_Jy=True,JianYing_Exe_Path=os.path.join(Config["Basic"]["JianYing_Path"],"Apps","JianyingPro.exe"))
     else: _ins = Api.Jy_Warp.Instance(Start_Jy=True) # Default Path
 
-    _ins._Start_New_Draft_Content() #进入主页面
+    _ins._Start_New_Draft_Content(wait=True) #进入主页面
 
     # 准备媒体文件
     for i in Config["Sources"]:
         _roll = []
         if i["Position"] == "BiliBili" : _roll = download_bilibili.bilibili(i)
-        if i["Position"] == "local": _roll.append(media_type.Media_Type(
-            path=os.path.commonpath(os.path.abspath(i["Url"])),filename=os.path.basename(os.path.abspath(i["Url"]))
+        if i["Position"] == "Local": 
+            _roll.append(media_type.Media_Type(
+                path=os.path.dirname(os.path.abspath(i["Url"])),filename=os.path.basename(os.path.abspath(i["Url"]))
             ))
         if i["Audio"] == True:
-            for n in _roll: n.to_m4a() # n is defined in  utils/media_type.py
+            for n in _roll: 
+                n.to_m4a() # n is defined in  utils/media_type.py
         i["roll"] = _roll
-    del i , n 
+
     for n in Config["Sources"]:
-        i = n["roll"]
-        exp = Api.Jy_Warp.Export_Options(export_sub=True,export_name=i.rawname,export_path=i.path,export_vid=False)
-        if i.hasm4a: Api.Api.Recognize_Subtitle(filename=i.m4a,filepath=i.path,export_options=exp,jianying_instance=_ins)
-        else: Api.Api.Recognize_Subtitle(filename=i.filename,filepath=i.path,export_options=exp,jianying_instance=_ins)
-        Webhooks.Webhooks(Config["Webhooks"],n,mesage=json.dumps({
-            "TransformFinished":i.rawname,
-            "Finish_Time":time.ctime(),
-            "Subtitle_Path":i.path,
-            "Subtitle_Name":i.rawname
-        },ensure_ascii=False,indent=4))
+        for i in n["roll"]:
+            exp = Api.Jy_Warp.Export_Options(export_sub=True,export_name=i.rawname,export_path=i.path,export_vid=False)
+            if i.hasm4a: Api.Api.Recognize_Subtitle(filename=i.m4a,filepath=i.path,export_options=exp,jianying_instance=_ins)
+            else: Api.Api.Recognize_Subtitle(filename=i.filename,filepath=i.path,export_options=exp,jianying_instance=_ins)
+            Webhooks.Webhooks(Config["Webhooks"],n,mesage=json.dumps({
+                "TransformFinished":i.rawname,
+                "Finish_Time":time.ctime(),
+                "Subtitle_Path":i.path,
+                "Subtitle_Name":i.rawname
+            },ensure_ascii=False,indent=4))

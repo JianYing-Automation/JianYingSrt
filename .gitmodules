@@ -1,0 +1,3 @@
+[submodule "JianYingApi"]
+	path = JianYingApi
+	url = https://github.com/P-PPPP/JianYingApi.git

@@ -14,6 +14,7 @@
 #### 本地调用或服务器部署
 - 克隆/下载 本仓库
 - 通过 `pip install -r requirements.txt` 安装依赖
+- 在目录下执行`git submodule init` 初始化子模块  
 - 执行 `python3 main.json --local D://Moives/Pulp_Fiction.mkv` 或者 `python3 main.json --bilibili BV1C64y1m7on`
 
 #### 通过 `Config.json` 调用

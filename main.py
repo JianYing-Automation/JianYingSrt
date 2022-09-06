@@ -46,16 +46,16 @@ if __name__ == "__main__":
     args = parser.parse_args()
     Config = json.loads(open(args.Config,"r",encoding="utf-8").read())
     assert ((args.bilibili != None) or (len(Config["Sources"]) > 0) or (args.local != None)) == True , IndexError("Please Add One Source | 请至少设置一个文件以转换字幕")
-    if args.mode == "Ga" or args.install_jianying == True:
-        install_jianYing()
     if Config["Basic"]["Screenshot"] == True:
         from threading import Thread
-        Thread(took_screenshot,daemon=True).start()
+        Thread(target=took_screenshot,daemon=True).start()
 
     Api.Logic_warp._kill_jianYing()
-    assert (os.path.exists(Api.Logic_warp._Get_JianYing_Default_Path()) == True) and (Config["Basic"]["JianYing_Path"] == "") , FileNotFoundError("Cannot Found Jianying Paath | 无法在默认目录中找到剪映文件")
+    if os.path.exists(Api.Logic_warp._Get_JianYing_Default_Path()) == False:
+        assert (Config["Basic"].get("JianYing_Path") == True) or os.path.exists(Config["Basic"].get("JianYing_Path")) == True , FileNotFoundError("Cannot Found Jianying Paath | 无法在默认目录中找到剪映文件")
 
     # 下面进行一些Config中的语法检查
+    logging.debug("Grammar Checking.")
     if args.mode == "Ga":
         try:
             Config["Webhooks"] += json.loads(os.environ["Webhooks"])
@@ -73,7 +73,8 @@ if __name__ == "__main__":
     del _w_n
 
     # 下载安装并启动剪映
-    if (args.install_jianying == True) or (Config["Basic"]["Install_JianYing"]==True): install_jianYing()
+    logging.debug("Installing JianYing.")
+    if (args.install_jianying == True) or (Config["Basic"]["Install_JianYing"]==True) or (args.mode == "Ga"): install_jianYing()
     Api.Logic_warp._kill_jianYing()
     if Config["Basic"]["JianYing_Path"] != None and Config["Basic"]["JianYing_Path"] != "": _ins = Api.Jy_Warp.Instance(Start_Jy=True,JianYing_Exe_Path=os.path.join(Config["Basic"]["JianYing_Path"],"Apps","JianyingPro.exe"))
     else: _ins = Api.Jy_Warp.Instance(Start_Jy=True) # Default Path
@@ -81,6 +82,7 @@ if __name__ == "__main__":
     _ins._Start_New_Draft_Content(wait=True) #进入主页面
 
     # 准备媒体文件
+    logging.debug("Preparing Media.")
     for i in Config["Sources"]:
         _roll = []
         if i["Position"] == "BiliBili" : _roll = download_bilibili.bilibili(i)
@@ -93,6 +95,8 @@ if __name__ == "__main__":
                 n.to_m4a() # n is defined in  utils/media_type.py
         i["roll"] = _roll
 
+    # 开始转换
+    logging.debug("Converting Subtitle.")
     for n in Config["Sources"]:
         for i in n["roll"]:
             exp = Api.Jy_Warp.Export_Options(export_sub=True,export_name=i.rawname,export_path=i.path,export_vid=False)
@@ -106,6 +110,7 @@ if __name__ == "__main__":
             },ensure_ascii=False,indent=4))
 
     # 若以Github Actions模式运行,则有
+    logging.debug("Assets Packing for GithubActions.")
     if args.mode == "Ga":
         # 打包output
         subprocess.run(f"7z a ./GA.zip ./outputs")

@@ -55,7 +55,7 @@ if __name__ == "__main__":
 
     Api.Logic_warp._kill_jianYing()
     if os.path.exists(Api.Logic_warp._Get_JianYing_Default_Path()) == False:
-        assert (Config["Basic"].get("JianYing_Path") == True) or os.path.exists(Config["Basic"].get("JianYing_Path")) == True , FileNotFoundError("Cannot Found Jianying Paath | 无法在默认目录中找到剪映文件")
+        assert ("JianYing_Path" in Config["Basic"]) or os.path.exists(Config["Basic"].get("JianYing_Path")) == True , FileNotFoundError("Cannot Found Jianying Paath | 无法在默认目录中找到剪映文件")
 
     # 下面进行一些Config中的语法检查
     logging.debug("Grammar Checking.")
@@ -77,7 +77,7 @@ if __name__ == "__main__":
 
     # 下载安装并启动剪映
     Api.Logic_warp._kill_jianYing()
-    if Config["Basic"]["JianYing_Path"] != None and Config["Basic"]["JianYing_Path"] != "": _ins = Api.Jy_Warp.Instance(Start_Jy=True,JianYing_Exe_Path=os.path.join(Config["Basic"]["JianYing_Path"],"Apps","JianyingPro.exe"))
+    if "JianYing_Path" in Config["Basic"] and Config["Basic"]["JianYing_Path"] != "": _ins = Api.Jy_Warp.Instance(Start_Jy=True,JianYing_Exe_Path=os.path.join(Config["Basic"]["JianYing_Path"],"Apps","JianyingPro.exe"))
     else: _ins = Api.Jy_Warp.Instance(Start_Jy=True) # Default Path
 
     _ins._Start_New_Draft_Content(wait=True) #进入主页面

@@ -8,13 +8,13 @@ def bilibili(i:dict)->list:
     # Sourcer 
     # 1: api接口
     _k = []
-    if i.get("Path") : _path = i["Path"]
+    if "Path" in i : _path = i["Path"]
     else: _path = "./outputs"
     headers = {"User-Agent":"Mozilla/5.0"}
     pages = requests.get(f"https://api.bilibili.com/x/web-interface/view?bvid={i['Bv']}",headers=headers)
     pages.encoding = 'utf-8'
     pages = pages.json()["data"]["pages"]
-    if i.get("P") == True and i["P"]!=None: cids = [fn["cids"] for fn in pages if pages.index(fn) in i["P"]] # 有优化空间,但是更简洁
+    if "P" in i and i["P"]!=None: cids = [fn["cids"] for fn in pages if pages.index(fn) in i["P"]] # 有优化空间,但是更简洁
     if i["Schema"] != None: cids = getattr(bilibili_schema,i["Schema"])(pages)
     else: cids = bilibili_schema.Default(pages)
     logging.debug(f"Start Download {i['Bv']} _ {cids}")

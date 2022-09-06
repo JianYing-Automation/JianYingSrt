@@ -7,6 +7,7 @@ import time
 import logging
 from utils import  bilibili_schema , prepare_env , download_bilibili , media_type , Webhooks
 
+os.path.exists("./outputs") == False and os.mkdir("./outputs")
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.DEBUG)
 console_handler = logging.StreamHandler()
@@ -16,6 +17,7 @@ logger.addHandler(file_handler)
 formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
 console_handler.setFormatter(formatter)
 file_handler.setFormatter(formatter)
+Ga_Running = True
 
 def install_jianYing():
     '''
@@ -26,12 +28,13 @@ def install_jianYing():
 
 def took_screenshot(lap:float=2.0):
     '''Took Screen shot Every lap'''
+    os.path.exists("./outputs/screenshots") == False and os.mkdir("./outputs/screenshots")
     import pyautogui , time
     _i = 0
-    while True:
+    while Ga_Running:
         _i += 1
         time.sleep(lap)
-        pyautogui.screenshot(f"./{_i}.png")
+        pyautogui.screenshot(f"./outputs/{_i}.png")
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
@@ -47,7 +50,7 @@ if __name__ == "__main__":
         install_jianYing()
     if Config["Basic"]["Screenshot"] == True:
         from threading import Thread
-        Thread(took_screenshot).start()
+        Thread(took_screenshot,daemon=True).start()
 
     Api.Logic_warp._kill_jianYing()
     assert (os.path.exists(Api.Logic_warp._Get_JianYing_Default_Path()) == True) and (Config["Basic"]["JianYing_Path"] == "") , FileNotFoundError("Cannot Found Jianying Paath | 无法在默认目录中找到剪映文件")
@@ -101,3 +104,10 @@ if __name__ == "__main__":
                 "Subtitle_Path":i.path,
                 "Subtitle_Name":i.rawname
             },ensure_ascii=False,indent=4))
+
+    # 若以Github Actions模式运行,则有
+    if args.mode == "Ga":
+        # 打包output
+        subprocess.run(f"7z a ./GA.zip ./outputs")
+        Api.Logic_warp._kill_jianYing()
+        Ga_Running = False

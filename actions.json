@@ -1,0 +1,12 @@
+{
+    "Basic":{
+        "Screenshot":true,
+        "Install_JianYing":true,
+        "Max_Session_Duration":6000
+    },
+    "Webhooks":[
+    ],
+    "Sources":[
+        { "Position":"BiliBili","Bv":"BV1Cf4y1d7tw" ,"Webhooks":[0,3] ,"P":[0,2]}
+    ]
+}

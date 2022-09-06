@@ -1,5 +1,5 @@
 # JianYingActionsSrt
-![Powered_By](https://img.shields.io/badge/JianYingApi-blue.svg)  ![Python](https://img.shields.io/badge/Language-Python-green.svg) [![CI](https://github.com/P-PPPP/ActionsGui/actions/workflows/main.yml/badge.svg)](https://github.com/P-PPPP/ActionsGui/actions/workflows/main.yml) 
+![Powered_By](https://img.shields.io/badge/Powered_By-JianYingApi-blue.svg)  ![Python](https://img.shields.io/badge/Language-Python-green.svg) [![CI](https://github.com/P-PPPP/ActionsGui/actions/workflows/main.yml/badge.svg)](https://github.com/P-PPPP/ActionsGui/actions/workflows/main.yml) 
 
 ## 使用Github Actions 使用剪映自动转换字幕文件  
 
@@ -9,11 +9,13 @@
 #### Github Actions
 - Fork 本仓库
 - 启用Actions
-- 修改`Config.json`
+- 修改`actions.json`
+- 运行
 
 #### 本地调用或服务器部署
 - 克隆/下载 本仓库
 - 通过 `pip install -r requirements.txt` 安装依赖
+- 执行 `git submodule update --init` 初始化子仓库
 - 执行 `python3 main.json --local D://Moives/Pulp_Fiction.mkv` 或者 `python3 main.json --bilibili BV1C64y1m7on`
 
 #### 通过 `Config.json` 调用
@@ -55,6 +57,12 @@ BiliBiliSchema是针对于某些特定的录播组/节目,允许用户自定义�
 - Audio  
 在转换大文件时可以转录音频代理以避免大文件导致的卡死,在GithubActions中建议启用.    
 
+#### Todo
+- Max_Session_Duration
+- Listen Mode
+- Api Invoke
+- Scheduled Check & Auto Run
+
 #### 许可证及引用
 License GPL V3.0
 [JianYingApi](https://github.com/P-PPPP/JianYingApi)  
@@ -62,4 +70,3 @@ License GPL V3.0
 [Python-UIAutomation-for-Windows](https://github.com/yinkaisheng/Python-UIAutomation-for-Windows)  
 [Pyautogui](https://github.com/asweigart/pyautogui)
 [requests](https://github.com/psf/requests)  
-

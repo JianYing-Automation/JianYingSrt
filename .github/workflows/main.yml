@@ -1,28 +1,18 @@
-# This is a basic workflow to help you get started with Actions
-
 name: Run JianYing Scripts
 
-# Controls when the workflow will run
 on:
-  # Triggers the workflow on push or pull request events but only for the main branch
   push:
     branches: [ main ]
-
-  # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
-
-# A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
-  # This workflow contains a single job called "build"
   Parse_Srt:
-    # The type of runner that the job will run on
     runs-on: windows-latest
-
-    # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
-      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v3
-    
+
+      - name: Initialize Submodule
+        run: git submodule update --init
+
       - name: Install Python
         uses: actions/setup-python@v3
 
@@ -31,22 +21,10 @@ jobs:
           pip install -r requirements.txt
           choco install -y ffmpeg aria2 7zip
           
-      - name: runScripts
-        run: py actions.py actions
-        id: version
-
-      - name: CreateRelease
-        if: always()
-        uses: actions/create-release@v1
-        id: create_release
-        with:
-          draft: false
-          prerelease: false
-          release_name: Subtitle_For_${{ env.Introduce }}
-          tag_name: ${{ env.Tags }}
-          body: Release ${{ env.Tags }}
-        env:
-          GITHUB_TOKEN: ${{ github.token }}
+      - name: RunScripts
+        env: 
+          Webhooks: ${{ secrets.Webhooks }}
+        run: python main.py -m Ga -c actions.json
       
       - name: UploadAssets
         if: always()
@@ -55,6 +33,6 @@ jobs:
           GITHUB_TOKEN: ${{ github.token }}
         with:
          upload_url: ${{ steps.create_release.outputs.upload_url }}
-         asset_path: ./components/tmp/All.zip
-         asset_name: All.zip
+         asset_path: ./GA.zip
+         asset_name: Github_Actions_All.zip
          asset_content_type: application/zip

@@ -49,6 +49,9 @@ if __name__ == "__main__":
     if Config["Basic"]["Screenshot"] == True:
         from threading import Thread
         Thread(target=took_screenshot,daemon=True).start()
+    # 安装剪映
+    logging.debug("Installing JianYing.")
+    if (args.install_jianying == True) or (Config["Basic"]["Install_JianYing"]==True) or (args.mode == "Ga"): install_jianYing()
 
     Api.Logic_warp._kill_jianYing()
     if os.path.exists(Api.Logic_warp._Get_JianYing_Default_Path()) == False:
@@ -58,7 +61,7 @@ if __name__ == "__main__":
     logging.debug("Grammar Checking.")
     if args.mode == "Ga":
         try:
-            Config["Webhooks"] += json.loads(os.environ["Webhooks"])
+            Config["Webhooks"] += json.loads(os.environ["WEBHOOKS"])
         except KeyError: logger.info("No Webhooks Detected In Github Action Keys. Passed ... ")
     _w_n = len(Config["Webhooks"])
     for i in Config["Sources"]:
@@ -73,8 +76,6 @@ if __name__ == "__main__":
     del _w_n
 
     # 下载安装并启动剪映
-    logging.debug("Installing JianYing.")
-    if (args.install_jianying == True) or (Config["Basic"]["Install_JianYing"]==True) or (args.mode == "Ga"): install_jianYing()
     Api.Logic_warp._kill_jianYing()
     if Config["Basic"]["JianYing_Path"] != None and Config["Basic"]["JianYing_Path"] != "": _ins = Api.Jy_Warp.Instance(Start_Jy=True,JianYing_Exe_Path=os.path.join(Config["Basic"]["JianYing_Path"],"Apps","JianyingPro.exe"))
     else: _ins = Api.Jy_Warp.Instance(Start_Jy=True) # Default Path

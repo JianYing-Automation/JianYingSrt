@@ -7,6 +7,6 @@
     "Webhooks":[
     ],
     "Sources":[
-        { "Position":"BiliBili","Bv":"BV1Cf4y1d7tw" ,"Webhooks":[0,3] ,"P":[0,2]}
+        { "Position":"BiliBili","Bv":"BV1Cf4y1d7tw" ,"Webhooks":[0] ,"P":[0,2]}
     ]
 }

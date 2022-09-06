@@ -42,7 +42,7 @@
 ```
 #### Webhook 安全
 如果你使用例如Server酱,钉钉机器人等推送服务，或者不想暴露自己的Webhook链接.    
-你可以在Settings->Secrets->Actions添加一个名为**Webhooks**的Secret,内容和以下类似:    
+你可以在Settings->Secrets->Actions添加一个名为**WEBHOOKS**的Secret,内容和以下类似:    
 ```json
 [
     { "Url":"https://sctapi.ftqq.com/<SENDKEY>.send", "Method":"GET" }

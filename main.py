@@ -51,6 +51,7 @@ if __name__ == "__main__":
         Thread(target=took_screenshot,daemon=True).start()
     # 安装剪映
     logging.debug("Installing JianYing.")
+    os.system("echo Installing JianYing.")
     if (args.install_jianying == True) or (Config["Basic"]["Install_JianYing"]==True) or (args.mode == "Ga"): install_jianYing()
 
     Api.Logic_warp._kill_jianYing()
@@ -59,6 +60,7 @@ if __name__ == "__main__":
 
     # 下面进行一些Config中的语法检查
     logging.debug("Grammar Checking.")
+    os.system("echo Grammar Checking.")
     if args.mode == "Ga":
         try:
             Config["Webhooks"] += json.loads(os.environ["WEBHOOKS"])

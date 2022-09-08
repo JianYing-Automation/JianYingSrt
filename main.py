@@ -8,6 +8,7 @@ import logging
 from utils import  bilibili_schema , prepare_env , download_bilibili , media_type , Webhooks
 
 os.path.exists("./outputs") == False and os.mkdir("./outputs")
+os.path.exists("./assets") == False and os.mkdir("./assets")
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.DEBUG)
 console_handler = logging.StreamHandler()
@@ -17,7 +18,6 @@ logger.addHandler(file_handler)
 formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
 console_handler.setFormatter(formatter)
 file_handler.setFormatter(formatter)
-Ga_Running = True
 
 def install_jianYing():
     '''
@@ -32,10 +32,9 @@ def took_screenshot(lap:float=2.0):
     os.path.exists("./outputs/screenshots") == False and os.mkdir("./outputs/screenshots")
     import pyautogui , time
     _i = 0
-    while Ga_Running:
+    while time.sleep(lap):
         _i += 1
-        time.sleep(lap)
-        pyautogui.screenshot(f"./outputs/{_i}.png")
+        pyautogui.screenshot(f"./outputs/screenshots/{_i}.png")
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
@@ -54,8 +53,6 @@ if __name__ == "__main__":
     logging.debug("Installing JianYing.")
     os.system("echo Installing JianYing.")
     if (args.install_jianying == True) or (Config["Basic"]["Install_JianYing"]==True) or (args.mode == "Ga"): install_jianYing()
-
-    Api.Logic_warp._kill_jianYing()
     if os.path.exists(Api.Logic_warp._Get_JianYing_Default_Path()) == False:
         assert ("JianYing_Path" in Config["Basic"]) or os.path.exists(Config["Basic"].get("JianYing_Path")) == True , FileNotFoundError("Cannot Found Jianying Paath | 无法在默认目录中找到剪映文件")
 
@@ -68,8 +65,9 @@ if __name__ == "__main__":
         except KeyError: logger.info("No Webhooks Detected In Github Action Keys. Passed ... ")
     _w_n = len(Config["Webhooks"])
     for i in Config["Sources"]:
-        if type(i["Webhooks"]) == list:
-            for n in i["Webhooks"]: assert n < _w_n , IndexError(f"Webhook Sequence{n} Should Less Than Num {_w_n} | Webhook 序号{n} 应小于总个数 {_w_n}")
+        if "Webhooks" in i:
+            if type(i["Webhooks"]) == list:
+                for n in i["Webhooks"]: assert n < _w_n , IndexError(f"Webhook Sequence{n} Should Less Than Num {_w_n} | Webhook 序号{n} 应小于总个数 {_w_n}")
         if i["Position"] == "Local": assert os.path.exists(i["Url"]) == True , FileNotFoundError(f"Couldn't Found Media | 文件不存在 ")
         if i.get("Schema"):
             if i["Schema"] != None:
@@ -79,12 +77,13 @@ if __name__ == "__main__":
     del _w_n
 
     # 下载安装并启动剪映
-    Api.Logic_warp._kill_jianYing()
+    if ("Install_JianYing" in Config["Basic"] and Config["Basic"]["Install_JianYing"] == True) or (args.install_jianying == True):
+        _tmp = Api.Jy_Warp.Instance(Start_Jy=True)
+        Api.Logic_warp._kill_jianYing() #第一次启动会启动Vedetector,需要关掉
+        del _tmp
     if "JianYing_Path" in Config["Basic"] and Config["Basic"]["JianYing_Path"] != "": _ins = Api.Jy_Warp.Instance(Start_Jy=True,JianYing_Exe_Path=os.path.join(Config["Basic"]["JianYing_Path"],"Apps","JianyingPro.exe"))
     else: _ins = Api.Jy_Warp.Instance(Start_Jy=True) # Default Path
-
     _ins._Start_New_Draft_Content(wait=True) #进入主页面
-
     # 准备媒体文件
     logging.debug("Preparing Media.")
     for i in Config["Sources"]:
@@ -94,7 +93,7 @@ if __name__ == "__main__":
             _roll.append(media_type.Media_Type(
                 path=os.path.dirname(os.path.abspath(i["Url"])),filename=os.path.basename(os.path.abspath(i["Url"]))
             ))
-        if i["Audio"] == True:
+        if "Audio" in i and i["Audio"] == True:
             for n in _roll: 
                 n.to_m4a() # n is defined in  utils/media_type.py
         i["roll"] = _roll
@@ -103,6 +102,7 @@ if __name__ == "__main__":
     logging.debug("Converting Subtitle.")
     for n in Config["Sources"]:
         for i in n["roll"]:
+            logging.info(f"Parsing {i.rawname}")
             exp = Api.Jy_Warp.Export_Options(export_sub=True,export_name=i.rawname,export_path=i.path,export_vid=False)
             if i.hasm4a: Api.Api.Recognize_Subtitle(filename=i.m4a,filepath=i.path,export_options=exp,jianying_instance=_ins)
             else: Api.Api.Recognize_Subtitle(filename=i.filename,filepath=i.path,export_options=exp,jianying_instance=_ins)
@@ -119,4 +119,3 @@ if __name__ == "__main__":
         # 打包output
         subprocess.run(f"7z a ./GA.zip ./outputs")
         Api.Logic_warp._kill_jianYing()
-        Ga_Running = False

@@ -28,11 +28,8 @@ jobs:
       
       - name: UploadAssets
         if: always()
-        uses: actions/upload-release-asset@v1
-        env:
-          GITHUB_TOKEN: ${{ github.token }}
+        uses: softprops/action-gh-release@v1
         with:
-         upload_url: ${{ steps.create_release.outputs.upload_url }}
-         asset_path: ./GA.zip
-         asset_name: Github_Actions_All.zip
-         asset_content_type: application/zip
+         files: |
+          ./GA_All.zip
+          ./GA_Srt.zip

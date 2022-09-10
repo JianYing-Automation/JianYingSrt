@@ -69,12 +69,6 @@ if __name__ == "__main__":
     Api.Logic_warp.echo("Trying to Launch JianYing")
     if "JianYing_Path" in Config["Basic"] and Config["Basic"]["JianYing_Path"] != "": _ins = Api.Jy_Warp.Instance(Start_Jy=True,JianYing_Exe_Path=os.path.join(Config["Basic"]["JianYing_Path"],"Apps","JianyingPro.exe"))
     else: _ins = Api.Jy_Warp.Instance(Start_Jy=True) # Default Path
-    if (args.install_jianying == True) or ("Install_JianYing" in Config["Basic"] and Config["Basic"]["Install_JianYing"]==True) or (args.mode == "Ga"):
-        Api.Logic_warp.echo("Waiting for vedetect.")
-        while Api.Logic_warp._has_running() == False: Api.Logic_warp.lag()
-        Api.Logic_warp._kill_jianYing()
-        while Api.Logic_warp._has_running() == True: Api.Logic_warp.lag()
-        _ins = Api.Jy_Warp.Instance(Start_Jy=True)
 
     Api.Logic_warp.echo("Creat Main Instance.")
     while Api.Logic_warp._has_running() == False: Api.Logic_warp.lag()

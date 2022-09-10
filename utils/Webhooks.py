@@ -1,12 +1,12 @@
 import requests
-import logging
+from . import etcs
 def Webhooks(WebhookConf,i,mesage:str):
     def Send(inf):
         try:
-            logging.info(f"Trying To Send Webhook To ")
+            etcs.echo(f"Trying To Send Webhook To ")
             if inf["Method"] == "POST" : requests.post(inf["Url"],data=mesage)
             if inf["Method"] == "GET": requests.get(inf["Url"],data=mesage)
-        except: logging.error(f"Error in Sending Webhook To ... ")
+        except: etcs.echo(f"Error in Sending Webhook To ... ")
         
     if "Webhooks" in i and i["Webhooks"] != None:
         if i["Webhooks"] == True:

@@ -75,8 +75,10 @@ if __name__ == "__main__":
         Api.Logic_warp.echo("Initializing Finished")
     if "JianYing_Path" in Config["Basic"] and Config["Basic"]["JianYing_Path"] != "": _ins = Api.Jy_Warp.Instance(Start_Jy=True,JianYing_Exe_Path=os.path.join(Config["Basic"]["JianYing_Path"],"Apps","JianyingPro.exe"))
     else: _ins = Api.Jy_Warp.Instance(Start_Jy=True) # Default Path
+    Api.Logic_warp.echo("Creat Main Instance.")
+    Api.Logic_warp.echo(_ins._detect_viewport())
     _ins._Start_New_Draft_Content(wait=True) #进入主页面
-    
+
     # 准备媒体文件
     Api.Logic_warp.echo("Preparing Media.")
     for i in Config["Sources"]:

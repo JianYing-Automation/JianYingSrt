@@ -65,13 +65,18 @@ if __name__ == "__main__":
     del _w_n
 
     # 下载安装并启动剪映
+    Api.Logic_warp.echo("Trying to Launch JianYing")
     if ("Install_JianYing" in Config["Basic"] and Config["Basic"]["Install_JianYing"] == True) or (args.mode=="Ga") or (args.install_jianying == True): 
+        Api.Logic_warp.echo("Initializing Jianying")
         _ins = Api.Jy_Warp.Instance(Start_Jy=True)
         while ("vedetector") in os.popen("tasklist").read().lower() == False : Api.Logic_warp.lag() # 等到vedetector出现
         Api.Logic_warp._kill_jianYing() #第一次启动会启动Vedetector,需要关掉
+        del _ins
+        Api.Logic_warp.echo("Initializing Finished")
     if "JianYing_Path" in Config["Basic"] and Config["Basic"]["JianYing_Path"] != "": _ins = Api.Jy_Warp.Instance(Start_Jy=True,JianYing_Exe_Path=os.path.join(Config["Basic"]["JianYing_Path"],"Apps","JianyingPro.exe"))
     else: _ins = Api.Jy_Warp.Instance(Start_Jy=True) # Default Path
     _ins._Start_New_Draft_Content(wait=True) #进入主页面
+    
     # 准备媒体文件
     Api.Logic_warp.echo("Preparing Media.")
     for i in Config["Sources"]:

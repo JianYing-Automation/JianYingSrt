@@ -13,7 +13,7 @@ def install_jianYing():
     '''
         Down and install Jianying
     '''
-    #prepare_env.DownloadJianYing()
+    prepare_env.DownloadJianYing()
     Api.Logic_warp.echo("JianYing Downloaded.")
     Api.Logic_warp._install_JianYing("jy.exe")
     _a = Api.Jy_Warp.Instance(Start_Jy=True)

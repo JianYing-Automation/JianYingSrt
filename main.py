@@ -70,11 +70,12 @@ if __name__ == "__main__":
     else: _ins = Api.Jy_Warp.Instance(Start_Jy=True) # Default Path
     if (args.install_jianying == True) or ("Install_JianYing" in Config["Basic"] and Config["Basic"]["Install_JianYing"]==True) or (args.mode == "Ga"):
         Api.Logic_warp.echo("Waiting for vedetect.")
-        while ("vedetector") in os.popen("tasklist").read().lower() == False:Api.Logic_warp.lag()
+        while Api.Logic_warp._has_running() == False: Api.Logic_warp.lag()
         Api.Logic_warp._kill_jianYing()
         _ins = Api.Jy_Warp.Instance(Start_Jy=True)
 
     Api.Logic_warp.echo("Creat Main Instance.")
+    while Api.Logic_warp._has_running() == False: Api.Logic_warp.lag()
     _ins._Start_New_Draft_Content(wait=True) #进入主页面
 
     # 准备媒体文件

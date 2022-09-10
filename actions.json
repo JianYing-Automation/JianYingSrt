@@ -1,7 +1,6 @@
 {
     "Basic":{
         "Screenshot":true,
-        "Install_JianYing":false,
         "Max_Session_Duration":6000
     },
     "Webhooks":[

@@ -23,7 +23,7 @@ def install_jianYing():
     '''
         Down and install Jianying
     '''
-    prepare_env.DownloadJianYing()
+    #prepare_env.DownloadJianYing()
     os.system("echo JianYing Downloaded.")
     Api.Logic_warp._install_JianYing("jy.exe")
 
@@ -52,7 +52,7 @@ if __name__ == "__main__":
     # 安装剪映
     logging.debug("Installing JianYing.")
     os.system("echo Installing JianYing.")
-    if (args.install_jianying == True) or (Config["Basic"]["Install_JianYing"]==True) or (args.mode == "Ga"): install_jianYing()
+    if (args.install_jianying == True) or ("install_jianying" in Config["Basic"] and Config["Basic"]["Install_JianYing"]==True) or (args.mode == "Ga"): install_jianYing()
     if os.path.exists(Api.Logic_warp._Get_JianYing_Default_Path()) == False:
         assert ("JianYing_Path" in Config["Basic"]) or os.path.exists(Config["Basic"].get("JianYing_Path")) == True , FileNotFoundError("Cannot Found Jianying Paath | 无法在默认目录中找到剪映文件")
 
@@ -77,10 +77,12 @@ if __name__ == "__main__":
     del _w_n
 
     # 下载安装并启动剪映
-    if ("Install_JianYing" in Config["Basic"] and Config["Basic"]["Install_JianYing"] == True) or (args.install_jianying == True):
-        _tmp = Api.Jy_Warp.Instance(Start_Jy=True)
+    if ("Install_JianYing" in Config["Basic"] and Config["Basic"]["Install_JianYing"] == True) or (args.mode=="Ga") or (args.install_jianying == True): 
+        print(8)
+        _ins = Api.Jy_Warp.Instance(Start_Jy=True)
+        print(9)
+        while ("vedetector") in os.popen("tasklist").read().lower() == False : Api.Logic_warp.lag() # 等到vedetector出现
         Api.Logic_warp._kill_jianYing() #第一次启动会启动Vedetector,需要关掉
-        del _tmp
     if "JianYing_Path" in Config["Basic"] and Config["Basic"]["JianYing_Path"] != "": _ins = Api.Jy_Warp.Instance(Start_Jy=True,JianYing_Exe_Path=os.path.join(Config["Basic"]["JianYing_Path"],"Apps","JianyingPro.exe"))
     else: _ins = Api.Jy_Warp.Instance(Start_Jy=True) # Default Path
     _ins._Start_New_Draft_Content(wait=True) #进入主页面

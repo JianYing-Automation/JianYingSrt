@@ -1,4 +1,6 @@
-from JianYingApi import JianYingApi as Api
+#from JianYingApi import JianYingApi as Api
+import uiautomation as api32
 if __name__ == "__main__":
-    _a = Api.Jy_Warp.Instance(Start_Jy=False)
-    print(_a._close_advertise(advertise_type=1))
+   Window = api32.WindowControl(searchDepth=1,Name="JianyingPro")
+   Window = api32.WindowControl(searchDepth=1,Name="JianyingPro",foundIndex=Window.foundIndex+1)
+   print(Window.ClassName)

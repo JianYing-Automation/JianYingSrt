@@ -40,8 +40,9 @@ if __name__ == "__main__":
         from threading import Thread
         Thread(target=took_screenshot,daemon=True).start()
     # 安装剪映
+
     Api.Logic_warp.echo("Installing JianYing.")
-    if (args.install_jianying == True) or ("install_jianying" in Config["Basic"] and Config["Basic"]["Install_JianYing"]==True) or (args.mode == "Ga"): install_jianYing()
+    if (args.install_jianying == True) or ("Install_JianYing" in Config["Basic"] and Config["Basic"]["Install_JianYing"]==True) or (args.mode == "Ga"): install_jianYing()
     if os.path.exists(Api.Logic_warp._Get_JianYing_Default_Path()) == False:
         assert ("JianYing_Path" in Config["Basic"]) or os.path.exists(Config["Basic"].get("JianYing_Path")) == True , FileNotFoundError("Cannot Found Jianying Paath | 无法在默认目录中找到剪映文件")
 
@@ -63,18 +64,16 @@ if __name__ == "__main__":
                 getattr(bilibili_schema,i["Schema"]) # This Will Through An Error If Your Schema Is Error
         if i["Position"] == "BiliBili":assert i["Bv"] != None, FileNotFoundError("No Bv Found | 未填写Bv号")
     del _w_n
-
     # 下载安装并启动剪映
     Api.Logic_warp.echo("Trying to Launch JianYing")
-    if ("Install_JianYing" in Config["Basic"] and Config["Basic"]["Install_JianYing"] == True) or (args.mode=="Ga") or (args.install_jianying == True): 
-        Api.Logic_warp.echo("Initializing Jianying")
-        _ins = Api.Jy_Warp.Instance(Start_Jy=True)
-        while ("vedetector") in os.popen("tasklist").read().lower() == False : Api.Logic_warp.lag() # 等到vedetector出现
-        Api.Logic_warp._kill_jianYing() #第一次启动会启动Vedetector,需要关掉
-        del _ins
-        Api.Logic_warp.echo("Initializing Finished")
     if "JianYing_Path" in Config["Basic"] and Config["Basic"]["JianYing_Path"] != "": _ins = Api.Jy_Warp.Instance(Start_Jy=True,JianYing_Exe_Path=os.path.join(Config["Basic"]["JianYing_Path"],"Apps","JianyingPro.exe"))
     else: _ins = Api.Jy_Warp.Instance(Start_Jy=True) # Default Path
+    if (args.install_jianying == True) or ("Install_JianYing" in Config["Basic"] and Config["Basic"]["Install_JianYing"]==True) or (args.mode == "Ga"):
+        Api.Logic_warp.echo("Waiting for vedetect.")
+        while ("vedetector") in os.popen("tasklist").read().lower() == False:Api.Logic_warp.lag()
+        Api.Logic_warp._kill_jianYing()
+        _ins = Api.Jy_Warp.Instance(Start_Jy=True)
+
     Api.Logic_warp.echo("Creat Main Instance.")
     _ins._Start_New_Draft_Content(wait=True) #进入主页面
 
@@ -109,8 +108,8 @@ if __name__ == "__main__":
             },ensure_ascii=False,indent=4))
 
     # 若以Github Actions模式运行,则有
-    Api.Logic_warp.echo("Assets Packing for GithubActions.")
     if args.mode == "Ga":
+        Api.Logic_warp.echo("Assets Packing for GithubActions.")
         # 打包output
         subprocess.run(f"7z a ./GA_All.zip ./outputs")
         subprocess.run(f"7z a ./GA_Srt.zip ./outputs/*.srt")

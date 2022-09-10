@@ -1,7 +1,8 @@
 {
     "Basic":{
         "Screenshot":true,
-        "Debug":true
+        "Debug":true,
+        "Install_JianYing":true
     },
     "Webhooks":[
     ],

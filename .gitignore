@@ -1,2 +1,4 @@
 */__pycache__
 log.log
+outputs/*
+assets/*

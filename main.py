@@ -72,10 +72,12 @@ if __name__ == "__main__":
         Api.Logic_warp.echo("Waiting for vedetect.")
         while Api.Logic_warp._has_running() == False: Api.Logic_warp.lag()
         Api.Logic_warp._kill_jianYing()
+        while Api.Logic_warp._has_running() == True: Api.Logic_warp.lag()
         _ins = Api.Jy_Warp.Instance(Start_Jy=True)
 
     Api.Logic_warp.echo("Creat Main Instance.")
     while Api.Logic_warp._has_running() == False: Api.Logic_warp.lag()
+    Api.Logic_warp.echo("123")
     _ins._Start_New_Draft_Content(wait=True) #进入主页面
 
     # 准备媒体文件

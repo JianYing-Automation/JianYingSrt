@@ -6,13 +6,13 @@
 ![202201300956_1_.gif](https://s2.loli.net/2022/03/24/G92tQ6RfJdYivPK.gif)  
 
 ### 使用方法
-#### Github Actions
+#### Github Actions (仍在开发)
 - Fork 本仓库
 - 启用Actions
 - 修改`actions.json`
 - 运行
 
-#### 本地调用或服务器部署
+#### 本地调用或服务器部署 (可以使用)
 - 克隆/下载 本仓库
 - 通过 `pip install -r requirements.txt` 安装依赖
 - 执行 `git submodule update --init` 初始化子仓库

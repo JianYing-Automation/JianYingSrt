@@ -1,22 +1,15 @@
-# JianYingActionsSrt
+# JianYingSrt
 ![Powered_By](https://img.shields.io/badge/Powered_By-JianYingApi-blue.svg)  ![Python](https://img.shields.io/badge/Language-Python-green.svg) [![CI](https://github.com/P-PPPP/ActionsGui/actions/workflows/main.yml/badge.svg)](https://github.com/P-PPPP/ActionsGui/actions/workflows/main.yml) 
 
-## 使用Github Actions 使用剪映自动转换字幕文件  
-
 ![202201300956_1_.gif](https://s2.loli.net/2022/03/24/G92tQ6RfJdYivPK.gif)  
-
-### 使用方法
-#### Github Actions (仍在开发)
-- Fork 本仓库
-- 启用Actions
-- 修改`actions.json`
-- 运行
 
 #### 本地调用或服务器部署 (可以使用)
 - 克隆/下载 本仓库
 - 通过 `pip install -r requirements.txt` 安装依赖
 - 执行 `git submodule update --init` 初始化子仓库
 - 执行 `python3 main.json --local D://Moives/Pulp_Fiction.mkv` 或者 `python3 main.json --bilibili BV1C64y1m7on`
+
+#### 由于GitHub官方对于Actions的紧缩，现不建议使用GitHub Actions作为运行平台，可以考虑1C2G的Windows主机
 
 #### 通过 `Config.json` 调用
 `Config.json`是高级配置文件,如果希望载入其他配置文件,请使用`python3 -c xxxx.json`  
